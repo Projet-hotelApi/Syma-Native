@@ -106,11 +106,19 @@ export default function App() {
                   ),
                 }}
               >
-                {() => {
+                {() => (
+                  <Stack.Navigator>
+                    <Stack.Screen name="Vendre">
+                      {() => <Vendre />}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                )}
+                {/* NE PAS SUPPRIMER :  */}
+                {/* {() =>
                   userToken === null ? (
                     <Stack.Navigator>
-                      <Stack.Screen name="Signup">
-                        {() => <Signup setId={setId} setToken={setToken} />}
+                      <Stack.Screen name="Login">
+                        {() => <Login setId={setId} setToken={setToken} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   ) : (
@@ -119,29 +127,9 @@ export default function App() {
                         {() => <Vendre />}
                       </Stack.Screen>
                     </Stack.Navigator>
-                  );
-                }}
+                  )
+                } */}
               </Tab.Screen>
-              {/* {userToken === null ? (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Signup">
-                      {() => <Signup setId={setId} setToken={setToken} />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                ) : (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Vendre">
-                      {() => <Vendre />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                )} */}
-              {/* {() => (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Vendre">
-                      {() => <Vendre />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                )} */}
 
               <Tab.Screen
                 name="Profile"

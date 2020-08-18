@@ -70,7 +70,7 @@ const Signup = ({ setToken, setId }) => {
           <TextInput
             autoCapitalize="none"
             value={email}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             placeholder="Email"
             style={styles.input}
             onChangeText={(text) => {
@@ -80,7 +80,7 @@ const Signup = ({ setToken, setId }) => {
           <TextInput
             autoCapitalize="none"
             value={username}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             placeholder="Username"
             style={styles.input}
             onChangeText={(text) => {
@@ -91,7 +91,7 @@ const Signup = ({ setToken, setId }) => {
             autoCapitalize="none"
             placeholder="Description"
             value={description}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             style={styles.input}
             onChangeText={(text) => {
               setDescription(text);
@@ -99,7 +99,7 @@ const Signup = ({ setToken, setId }) => {
           />
           <TextInput
             autoCapitalize="none"
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             placeholder="First-name"
             value={firstName}
             style={styles.input}
@@ -111,7 +111,7 @@ const Signup = ({ setToken, setId }) => {
             autoCapitalize="none"
             placeholder="Last-name"
             value={lastName}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             style={styles.input}
             onChangeText={(text) => {
               setLastName(text);
@@ -121,7 +121,7 @@ const Signup = ({ setToken, setId }) => {
             autoCapitalize="none"
             placeholder="Code Postal"
             value={postalCode}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             style={styles.input}
             onChangeText={(text) => {
               setPostalCode(text);
@@ -130,7 +130,7 @@ const Signup = ({ setToken, setId }) => {
           <TextInput
             autoCapitalize="none"
             placeholder="Ville"
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             value={city}
             style={styles.input}
             onChangeText={(text) => {
@@ -140,7 +140,7 @@ const Signup = ({ setToken, setId }) => {
           <TextInput
             autoCapitalize="none"
             placeholder="Address"
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             value={address}
             style={styles.input}
             onChangeText={(text) => {
@@ -151,7 +151,7 @@ const Signup = ({ setToken, setId }) => {
             autoCapitalize="none"
             secureTextEntry={true}
             value={password}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             placeholder="Password"
             style={styles.input}
             onChangeText={(text) => {
@@ -161,7 +161,7 @@ const Signup = ({ setToken, setId }) => {
           <TextInput
             autoCapitalize="none"
             secureTextEntry={true}
-            placeholderTextColor="#C63E81"
+            placeholderTextColor="#78244d"
             placeholder="Confirm your password"
             value={passwordConfirm}
             style={styles.input}
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    borderColor: "#C63E81",
+    borderColor: "#78244d",
     marginTop: 10,
     borderWidth: 1,
     borderRadius: 5,
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 170,
     height: 55,
-    backgroundColor: "#C63E81",
+    backgroundColor: "#78244d",
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "center",
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 300,
     height: 30,
-    backgroundColor: "#C63E81",
+    backgroundColor: "#78244d",
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "center",

@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
 
 const Vendre = () => {
   const [title, setTitle] = useState("");
@@ -17,6 +18,9 @@ const Vendre = () => {
   const [picture, setPicture] = useState("");
 
   // if condition !!!
+  // requete axios
+  // insérer image
+  // setCondition/condition + size/setSize à insérer dans RNPickerSelect +
 
   return (
     // IMAGEEEEEE
@@ -33,18 +37,21 @@ const Vendre = () => {
         />
       </View>
       <View>
-        <Text style={styles.textVendre}>Decris ton article</Text>
+        <Text style={styles.textVendre}>Décris ton article</Text>
         <TextInput
           value={description}
+          multiline={true}
+          numberOfLines={10}
+          maxLength={1000}
           placeholder="ex : porté quelques fois, taille correctement"
-          style={styles.input}
+          style={styles.inputDescription}
           onChangeText={(text) => {
             setDescription(text);
           }}
         />
       </View>
-      <View>
-        <Text style={styles.textVendre}>Prix</Text>
+      <View style={styles.price}>
+        <Text style={styles.textVendre}>Prix sans les frais de port</Text>
         <TextInput
           value={price}
           style={styles.input}
@@ -56,8 +63,19 @@ const Vendre = () => {
 
       <View>
         <Text style={styles.textVendre}>Condition</Text>
-
-        {/* FORM SELECT OPTION */}
+        <RNPickerSelect
+          style={styles.choice}
+          // https://www.npmjs.com/package/react-native-picker-select
+          //onValueChange={(value) => setCondition} ??
+          onValueChange={(value) => console.log(value)}
+          items={[
+            { label: "Neuf avec étiquette", value: "Neuf avec étiquette" },
+            { label: "Neuf sans étiquette", value: "Neuf sans étiquette" },
+            { label: "Très bon état", value: "Très bon état" },
+            { label: "Bon état", value: "Bon état" },
+            { label: "Satisfaisant", value: "Satisfaisant" },
+          ]}
+        />
       </View>
       <View>
         <Text style={styles.textVendre}>Marque</Text>
@@ -65,7 +83,22 @@ const Vendre = () => {
       </View>
       <View>
         <Text style={styles.textVendre}>Taille</Text>
-        {/* FORM SELECT OPTION */}
+        <RNPickerSelect
+          // onValueChange={(value) => setSize} ??
+          onValueChange={(value) => console.log(value)}
+          items={[
+            { label: "32", value: "32" },
+            { label: "34", value: "34" },
+            { label: "36", value: "36" },
+            { label: "38", value: "38" },
+            { label: "40", value: "40" },
+            { label: "42", value: "42" },
+            { label: "44", value: "44" },
+            { label: "46", value: "46" },
+            { label: "48", value: "48" },
+            { label: "50", value: "50" },
+          ]}
+        />
       </View>
       <TouchableOpacity style={styles.btnVendre}>
         {/* onPress={handleSubmit} */}
@@ -80,7 +113,31 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   textVendre: {
-    color: "#C63E81",
+    color: "#78244d",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  input: {
+    borderColor: "#78244d",
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 300,
+    height: 40,
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingLeft: 5,
+  },
+  inputDescription: {
+    borderColor: "#78244d",
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 350,
+    height: 100,
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingLeft: 5,
   },
   btnVendre: {
     marginLeft: "auto",
@@ -88,7 +145,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 180,
     height: 50,
-    backgroundColor: "#C63E81",
+    backgroundColor: "#78244d",
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "center",

@@ -60,7 +60,13 @@ const Login = ({ setToken, setId }) => {
             setPassword(text);
           }}
         />
-        <TouchableOpacity style={styles.loginBtnConnect} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.loginBtnConnect}
+          onPress={handleSubmit}
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
+        >
           <Text style={styles.loginBtnText}>Se Connecter</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -84,16 +90,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   loginText: {
-    color: "#C63E81",
+    color: "#78244d",
     fontSize: 18,
   },
   loginTextPassword: {
-    color: "#C63E81",
+    color: "#78244d",
     fontSize: 18,
     marginTop: 10,
   },
   loginInput: {
-    borderColor: "#C63E81",
+    borderColor: "#78244d",
     marginTop: 10,
     borderWidth: 1,
     borderRadius: 5,
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 170,
     height: 55,
-    backgroundColor: "#C63E81",
+    backgroundColor: "#78244d",
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "center",
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     width: 170,
     height: 55,
-    backgroundColor: "#C63E81",
+    backgroundColor: "#78244d",
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "center",
