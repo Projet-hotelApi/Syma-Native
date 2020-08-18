@@ -34,7 +34,6 @@ const Login = ({ setToken, setId }) => {
       }
     } catch (error) {
       console.log(error.message);
-      res.status(400).json({ message: error.message });
     }
   };
 
@@ -70,7 +69,7 @@ const Login = ({ setToken, setId }) => {
             navigation.navigate("Signup");
           }}
         >
-          <Text style={styles.loginBtnText}>S'inscrire</Text>
+          <Text style={styles.loginBtnText}>Je m'inscris</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

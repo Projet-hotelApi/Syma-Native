@@ -67,6 +67,18 @@ export default function App() {
                 },
               }}
             >
+              <Tab.Screen name="Login">
+                {() => (
+                  <Stack.Navigator>
+                    <Stack.Screen name="Login">
+                      {() => <Login setId={setId} setToken={setToken} />}
+                    </Stack.Screen>
+                    <Stack.Screen name="Signup">
+                      {() => <Signup setId={setId} setToken={setToken} />}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                )}
+              </Tab.Screen>
               <Tab.Screen
                 name="Home"
                 options={{
@@ -94,14 +106,43 @@ export default function App() {
                   ),
                 }}
               >
-                {() => (
+                {() => {
+                  userToken === null ? (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Signup">
+                        {() => <Signup setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  ) : (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Vendre">
+                        {() => <Vendre />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  );
+                }}
+              </Tab.Screen>
+              {/* {userToken === null ? (
+                  <Stack.Navigator>
+                    <Stack.Screen name="Signup">
+                      {() => <Signup setId={setId} setToken={setToken} />}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                ) : (
                   <Stack.Navigator>
                     <Stack.Screen name="Vendre">
                       {() => <Vendre />}
                     </Stack.Screen>
                   </Stack.Navigator>
-                )}
-              </Tab.Screen>
+                )} */}
+              {/* {() => (
+                  <Stack.Navigator>
+                    <Stack.Screen name="Vendre">
+                      {() => <Vendre />}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                )} */}
+
               <Tab.Screen
                 name="Profile"
                 options={{
