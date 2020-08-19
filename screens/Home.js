@@ -5,52 +5,47 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  FlatList,
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const Home = () => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
-  // Requete Axios à faire
-  // return FlatList
-  // onPress sur une annonce => Annonce (component)
-  return (
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://syma-projet.herokuapp.com/ad");
+      console.log(response.data);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  useEffect(() => {
+    // fetchData();
+    console.log("coucou");
+  }, []);
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : (
     <ScrollView>
       <SafeAreaView>
         <View style={styles.container}>
-          <View style={styles.annonceContainer}>
-            <Text>Robe à fleurs</Text>
-            <Image
-              style={styles.imageAnnonce}
-              source={require("../assets/robe-essai.jpg")}
-            />
-            <View style={styles.informations}>
-              <View style={styles.informationsText}>
-                <Text>30€</Text>
-                <Text>Size</Text>
-              </View>
-              <Text>Mon Pseudo</Text>
-            </View>
-          </View>
-          <View style={styles.annonceContainer}>
-            <Text>Robe à fleurs</Text>
-            <Image
-              style={styles.imageAnnonce}
-              source={require("../assets/robe-essai.jpg")}
-            />
+          <Text>Coucou</Text>
 
-            <View>
-              <View>
-                <Text>30€</Text>
-                <Text>Size</Text>
-              </View>
-              <Text>Mon Pseudo</Text>
-            </View>
-          </View>
+          {/* <FlatList
+              data={data.ad}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                <Text>{item.ad.title}</Text>;
+              }}
+            /> */}
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -64,24 +59,24 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     flexDirection: "row",
   },
-  annonceContainer: {
-    width: "50%",
-    height: 250,
-    borderColor: "red",
-    borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  imageAnnonce: {
-    width: 150,
-    height: 150,
-  },
-  informations: {
-    flexDirection: "row",
-  },
-  informationsText: {
-    flexDirection: "row",
-  },
+  // annonceContainer: {
+  //   width: "50%",
+  //   height: 250,
+  //   borderColor: "red",
+  //   borderWidth: 1,
+  //   paddingLeft: 10,
+  //   paddingRight: 10,
+  // },
+  // imageAnnonce: {
+  //   width: 150,
+  //   height: 150,
+  // },
+  // informations: {
+  //   flexDirection: "row",
+  // },
+  // informationsText: {
+  //   flexDirection: "row",
+  // },
 });
 
 export default Home;
