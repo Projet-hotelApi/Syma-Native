@@ -17,42 +17,37 @@ const Signup = ({ setToken, setId }) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const handleSubmit = async () => {
     try {
-      // REGEX
-      // CONDITION DE IF CF BACK END
       if (password !== passwordConfirm) {
-        alert("Passwords are not identicals");
+        alert("Mots de passe différents, merci de rectifier");
       } else {
         const response = await axios.post(
           "https://syma-projet.herokuapp.com/user/sign-up",
           {
             email: email,
             username: username,
-            description: description,
-            picture: picture,
+            password: password,
             firstName: firstName,
             lastName: lastName,
             postalCode: postalCode,
             city: city,
             address: address,
-            password: password,
           }
         );
         console.log(response.data);
         if (response.data.token) {
           setToken(response.data.token);
           setId(response.data.id);
+          alert("Votre compte a bien été créé");
         }
       }
     } catch (error) {
@@ -64,8 +59,6 @@ const Signup = ({ setToken, setId }) => {
     <ScrollView style={styles.signup}>
       <SafeAreaView>
         <View>
-          {/* Renvoyer clé du backend */}
-          {/* Picture ??  */}
           <Image source={{}} />
           <TextInput
             autoCapitalize="none"
@@ -85,16 +78,6 @@ const Signup = ({ setToken, setId }) => {
             style={styles.input}
             onChangeText={(text) => {
               setUsername(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Description"
-            value={description}
-            placeholderTextColor="#78244d"
-            style={styles.input}
-            onChangeText={(text) => {
-              setDescription(text);
             }}
           />
           <TextInput

@@ -56,65 +56,63 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Menu">
-          {() => (
-            <Tab.Navigator
-              tabBarOptions={{
-                style: {
-                  backgroundColor: "white",
-                  height: "14%",
-                },
-              }}
-            >
-              <Tab.Screen name="Login">
-                {() => (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Login">
-                      {() => <Login setId={setId} setToken={setToken} />}
-                    </Stack.Screen>
-                    <Stack.Screen name="Signup">
-                      {() => <Signup setId={setId} setToken={setToken} />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                )}
-              </Tab.Screen>
-              <Tab.Screen
-                name="Home"
-                options={{
-                  tabBarLabel: "Home",
-                  tabBarIcon: () => (
-                    <Ionicons name={"ios-home"} size={32} color="#C63E81" />
-                  ),
+      {isLoading ? null : userToken === null ? (
+        <Stack.Navigator>
+          <Stack.Screen name="Login">
+            {() => <Login setId={setId} setToken={setToken} />}
+          </Stack.Screen>
+          <Stack.Screen name="Signup">
+            {() => <Signup setId={setId} setToken={setToken} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen name="Menu">
+            {() => (
+              <Tab.Navigator
+                tabBarOptions={{
+                  style: {
+                    backgroundColor: "white",
+                    height: "14%",
+                  },
                 }}
               >
-                {() => (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
-                    <Stack.Screen name="Annonce">
-                      {() => <Annonce />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                )}
-              </Tab.Screen>
-              <Tab.Screen
-                name="Vendre"
-                options={{
-                  tabBarLabel: "Vendre",
-                  tabBarIcon: () => (
-                    <AntDesign name="pluscircleo" size={30} color="#C63E81" />
-                  ),
-                }}
-              >
-                {() => (
-                  <Stack.Navigator>
-                    <Stack.Screen name="Vendre">
-                      {() => <Vendre />}
-                    </Stack.Screen>
-                  </Stack.Navigator>
-                )}
-                {/* NE PAS SUPPRIMER :  */}
-                {/* {() =>
+                <Tab.Screen
+                  name="Home"
+                  options={{
+                    tabBarLabel: "Home",
+                    tabBarIcon: () => (
+                      <Ionicons name={"ios-home"} size={32} color="#C63E81" />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
+                      <Stack.Screen name="Annonce">
+                        {() => <Annonce />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="Vendre"
+                  options={{
+                    tabBarLabel: "Vendre",
+                    tabBarIcon: () => (
+                      <AntDesign name="pluscircleo" size={30} color="#C63E81" />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Vendre">
+                        {() => <Vendre />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                  {/* NE PAS SUPPRIMER :  */}
+                  {/* {() =>
                   userToken === null ? (
                     <Stack.Navigator>
                       <Stack.Screen name="Login">
@@ -129,45 +127,50 @@ export default function App() {
                     </Stack.Navigator>
                   )
                 } */}
-              </Tab.Screen>
+                </Tab.Screen>
 
-              <Tab.Screen
-                name="Profile"
-                options={{
-                  tabBarLabel: "Profile",
-                  tabBarIcon: () => (
-                    <Ionicons name={"ios-person"} size={40} color="#C63E81" />
-                  ),
-                }}
-              >
-                {() => <Profile />}
-              </Tab.Screen>
-              <Tab.Screen
-                name="Message"
-                options={{
-                  tabBarLabel: "Message",
-                  tabBarIcon: () => (
-                    <FontAwesome name="envelope-o" size={30} color="#C63E81" />
-                  ),
-                }}
-              >
-                {() => <Message />}
-              </Tab.Screen>
-              <Tab.Screen
-                name="Search"
-                options={{
-                  tabBarLabel: "Search",
-                  tabBarIcon: () => (
-                    <FontAwesome name="search" size={30} color="#C63E81" />
-                  ),
-                }}
-              >
-                {() => <Search />}
-              </Tab.Screen>
-            </Tab.Navigator>
-          )}
-        </Stack.Screen>
-      </Stack.Navigator>
+                <Tab.Screen
+                  name="Profile"
+                  options={{
+                    tabBarLabel: "Profile",
+                    tabBarIcon: () => (
+                      <Ionicons name={"ios-person"} size={40} color="#C63E81" />
+                    ),
+                  }}
+                >
+                  {() => <Profile setId={setId} setToken={setToken} />}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="Message"
+                  options={{
+                    tabBarLabel: "Message",
+                    tabBarIcon: () => (
+                      <FontAwesome
+                        name="envelope-o"
+                        size={30}
+                        color="#C63E81"
+                      />
+                    ),
+                  }}
+                >
+                  {() => <Message />}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="Search"
+                  options={{
+                    tabBarLabel: "Search",
+                    tabBarIcon: () => (
+                      <FontAwesome name="search" size={30} color="#C63E81" />
+                    ),
+                  }}
+                >
+                  {() => <Search />}
+                </Tab.Screen>
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }

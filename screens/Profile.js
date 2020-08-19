@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
+  ScrollView,
+  Image,
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ActionSheetIOS,
+  AsyncStorage,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+// import { ScrollView } from "react-native-gesture-handler";
+// import * as ImagePicker from "expo-image-picker";
+// import axios from "axios";
 
 const Profile = () => {
   const [data, setData] = useState({});
@@ -22,6 +28,18 @@ const Profile = () => {
   const [address, setAddress] = useState("");
 
   // Requete update user
+  // /user/update-account/:id
+  // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
+
+  // const updateProfile = async () => {
+  //   const token = await AsyncStorage.getItem("userToken");
+  //   const id = await AsyncStorage.getItem("userId");
+  //   try {
+  //     const response = await axios.post();
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   return (
     <ScrollView>

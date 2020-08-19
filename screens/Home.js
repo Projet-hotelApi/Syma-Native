@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
-import ActivityIndicator from "../components/ActivityIndicator";
+import Activity from "../components/Activity";
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -20,7 +20,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
-      console.log(response.data);
+      console.log(response.data); // NON
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -28,17 +28,15 @@ const Home = () => {
     }
   };
   useEffect(() => {
-    // fetchData();
-    console.log("coucou");
+    fetchData();
   }, []);
+
   return isLoading ? (
-    <ActivityIndicator />
+    <Activity />
   ) : (
     <ScrollView>
       <SafeAreaView>
         <View style={styles.container}>
-          <Text>Coucou</Text>
-
           {/* <FlatList
               data={data.ad}
               keyExtractor={(item) => item.id}
