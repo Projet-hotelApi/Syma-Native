@@ -14,6 +14,10 @@ import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import Activity from "../components/Activity";
 
+// Apparaitre photo dans BDD => Attention Array !!
+// Updater les infos compte user
+// et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
+
 const Profile = ({ setId, setToken }) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +41,7 @@ const Profile = ({ setId, setToken }) => {
           `https://syma-projet.herokuapp.com/user/informations/${id}`,
           { headers: { Authorization: "Bearer " + token } }
         );
-        //console.log(response.data);
+        //console.log(response.data);// OK
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -48,84 +52,89 @@ const Profile = ({ setId, setToken }) => {
     userFounded();
   }, []);
 
-  // /user/update-account/:id
-  const updateUser = async () => {
-    const token = await AsyncStorage.getItem("userToken");
-    const id = await AsyncStorage.getItem("userId");
-    try {
-      const response = await axios.post(
-        `https://syma-projet.herokuapp.com/user/update-account/${id}`,
-        {
-          email: email,
-          username: username,
-          description: description,
-          picture: pictureProfile,
-          firstName: firstName,
-          lastName: lastName,
-          address: address,
-          city: city,
-          postalCode: postalCode,
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      );
-      // Faire comparatif input
-      console.log(response.data);
-      setData(response.data);
-      alert("Changes updated");
-    } catch (error) {
-      console.log(error.message);
-      alert("Please try again");
-    }
-  };
-
-  // UPDATER PHOTO
-  // const updateUser = useCallback(async (pickerResult) => {
+  // const updateUser = async () => {
   //   const token = await AsyncStorage.getItem("userToken");
   //   const id = await AsyncStorage.getItem("userId");
   //   try {
-  //     setUpLoading(true);
-  //     if (!pickerResult.cancelled) {
-  //       const uri = picketResult.uri;
-  //       const uriParts = uri.split(".");
-  //       const fileType = uriParts[uriParts.length - 1];
-  //       const formData = new FormData();
-  //       formData.append("photo", {
-  //         uri,
-  //         name: `photo.${fileType}`,
-  //         type: `image/${fileType}`,
-  //       });
-  //       const response = await axios.post(
-  //         `https://syma-projet.herokuapp.com/user/update-account/${id}`,
-  //         {
-  //           email: email,
-  //           username: username,
-  //           description: description,
-  //           picture: pictureProfile,
-  //           firstName: firstName,
-  //           lastName: lastName,
-  //           address: address,
-  //           city: city,
-  //           postalCode: postalCode,
-  //         },
-  //         { headers: { Authorization: "Bearer " + token } }
-  //       );
-  //       console.log(response.data);
-  //       if (
-  //         Array.isArray(uploadResponse.data.photo) === true &&
-  //         uploadResponse.data.photo.length > 0
-  //       ) {
-  //         // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
-  //         setData(response.data);
-  //         alert("Changes updated");
-  //         setImageProfile(uploadResponse.data.photo[0].url);
-  //         //setData(uploadResponse.data)
-  //       }
-  //     }
+  //     const response = await axios.post(
+  //       `https://syma-projet.herokuapp.com/user/update-account/${id}`,
+  //       {
+  //         email: email,
+  //         username: username,
+  //         postalCode: postalCode,
+  //         city: city,
+  //         address: address,
+  //         description: description,
+  //         picture: pictureProfile,
+  //       },
+  //       { headers: { Authorization: "Bearer " + token } }
+  //     );
+  //     console.log(response.data);
+  //     // Faire comparatif input
+  //     // if (response.data !== input ??)
+  //     setData(response.data);
+  //     alert("Changes updated");
   //   } catch (error) {
   //     console.log(error.message);
   //     alert("Please try again");
   //   }
-  // });
+  // };
+
+  // UPDATER Photo
+  const handleImagePicked = useCallback(async (pickerResult) => {
+    const token = await AsyncStorage.getItem("userToken");
+    const id = await AsyncStorage.getItem("userId");
+    try {
+      setUpLoading(true);
+      if (!pickerResult.cancelled) {
+        const uri = pickerResult.uri;
+        console.log("pick", pickerResult);
+        console.log("uri", uri);
+        const uriParts = uri.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        const formData = new FormData();
+        formData.append("photo", {
+          uri,
+          name: `photo.${fileType}`,
+          type: `image/${fileType}`,
+        });
+        console.log("formData", formData);
+        const response = await axios.post(
+          `https://syma-projet.herokuapp.com/user/update-account/${id}`,
+          formData,
+          {
+            email: email,
+            username: username,
+            description: description,
+            picture: pictureProfile,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            postalCode: postalCode,
+          },
+          { headers: { Authorization: "Bearer " + token } }
+        );
+        console.log(response.data);
+        if (
+          Array.isArray(uploadResponse.data.photo) === true &&
+          uploadResponse.data.photo !== ""
+        ) {
+          console.log("uploadResponse.data.photo", uploadResponse.data.photo);
+          // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
+          setData(response.data);
+          alert("Changes updated");
+          setPictureProfile(uploadResponse.data.photo.url);
+          //setData(uploadResponse.data)
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+      alert("Please try again");
+    } finally {
+      setUpLoading(false);
+    }
+  });
 
   const onPress = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -155,7 +164,7 @@ const Profile = ({ setId, setToken }) => {
         aspect: [4, 3],
       });
       // handleImagePicked(pickerResult);
-      setImageProfile(pickerResult.uri);
+      setPictureProfile(pickerResult.uri);
     }
   };
 
@@ -166,8 +175,8 @@ const Profile = ({ setId, setToken }) => {
         allowsEditing: true,
         aspect: [1, 1],
       });
-      // handleImagePicked(pickerResult);
-      setImageProfile(pickerResult.uri);
+      //handleImagePicked(pickerResult);
+      setPictureProfile(pickerResult);
     }
   };
 
@@ -177,24 +186,32 @@ const Profile = ({ setId, setToken }) => {
         <Activity />
       ) : (
         <View style={styles.container}>
-          {/* PHOTO A UPDATEEEEERRRRRRRRRR */}
-          <TouchableOpacity onPress={onPress}></TouchableOpacity>
-          {/*  {data.photo.length === 0 && setUpLoading === false ? (
-        <Image style={styles.imageVide} />
-      ) : (
-        <Image style={styles.image} source={{ uri: imageProfile }} />
-      )} */}
+          <TouchableOpacity onPress={onPress}>
+            {pictureProfile ? (
+              <Image
+                style={styles.image}
+                source={{ uri: pictureProfile.uri }}
+              />
+            ) : data.picture ? (
+              <Image style={styles.image} source={{ uri: data.picture }} />
+            ) : (
+              <Text style={styles.pictureDiv}>
+                Ajouter / changer ma photo de profil
+              </Text>
+            )}
+          </TouchableOpacity>
+
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            defaultValue={data.email}
+            value={data.email}
             placeholder="Email"
             onChangeText={(text) => setEmail(text)}
           />
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            defaultValue={data.username}
+            value={data.username}
             placeholder="Username"
             onChangeText={(text) => setUsername(text)}
           />
@@ -243,7 +260,12 @@ const Profile = ({ setId, setToken }) => {
             placeholder="Adresse"
             onChangeText={(text) => setAddress(text)}
           />
-          <TouchableOpacity onPress={updateUser} style={styles.btnProfile}>
+          <TouchableOpacity
+            onPress={() => {
+              handleImagePicked(pictureProfile);
+            }}
+            style={styles.btnProfile}
+          >
             <Text style={styles.btnProfileText}>Mettre à jour</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -271,9 +293,19 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
+  pictureDiv: {
+    width: "70%",
+    height: 100,
+    borderColor: "#78244d",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
   image: {
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
+    borderRadius: 10,
   },
   input: {
     borderColor: "#78244d",
