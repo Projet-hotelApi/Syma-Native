@@ -25,7 +25,7 @@ const Vendre = () => {
   const [picture, setPicture] = useState("");
 
   // if condition !!!
-  // requete axios
+  // PUSH articles dans user => back end
   // insérer image
   // setCondition/condition + size/setSize à insérer dans RNPickerSelect +
 
@@ -36,7 +36,6 @@ const Vendre = () => {
         "https://syma-projet.herokuapp.com/ad/publish",
         {
           title: title,
-          description: description,
           price: price,
           picture: picture,
         },
@@ -105,7 +104,7 @@ const Vendre = () => {
       <View style={styles.container}>
         <View>
           <TouchableOpacity onPress={onPress}>
-            <Text> Choisir une photo pour mon article</Text>
+            <Text>Choisir une photo pour mon article</Text>
             <Text>Minimum 1 photo et 5 photos maximum</Text>
           </TouchableOpacity>
 
@@ -149,8 +148,8 @@ const Vendre = () => {
           <RNPickerSelect
             style={styles.choice}
             // https://www.npmjs.com/package/react-native-picker-select
-            //onValueChange={(value) => setCondition} ??
-            onValueChange={(value) => console.log(value)}
+            // onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => setCondition(value)}
             items={[
               { label: "Neuf avec étiquette", value: "Neuf avec étiquette" },
               { label: "Neuf sans étiquette", value: "Neuf sans étiquette" },
@@ -162,13 +161,31 @@ const Vendre = () => {
         </View>
         <View>
           <Text style={styles.textVendre}>Marque</Text>
-          {/* FORM SELECT OPTION */}
+          <RNPickerSelect
+            style={styles.choice}
+            // onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => setBrand(value)}
+            items={[
+              { label: "Autres", value: "Autres" },
+              { label: "Bash", value: "Bash" },
+              { label: "Bérénice", value: "Bérénice" },
+              { label: "Desigual", value: "Desigual" },
+              { label: "H&M", value: "H&M" },
+              { label: "Lacoste", value: "Lacoste" },
+              { label: "Levis", value: "Levis" },
+              { label: "Pull&Bear", value: "Pull&Bear" },
+              { label: "Mango", value: "Mango" },
+              { label: "Stradivarius", value: "Stradivarius" },
+              { label: "The Kooples", value: "The Kooples" },
+              { label: "Zara", value: "Zara" },
+            ]}
+          />
         </View>
         <View>
           <Text style={styles.textVendre}>Taille</Text>
           <RNPickerSelect
-            // onValueChange={(value) => setSize} ??
-            onValueChange={(value) => console.log(value)}
+            //  onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => setSize(value)}
             items={[
               { label: "32", value: "32" },
               { label: "34", value: "34" },
@@ -180,11 +197,11 @@ const Vendre = () => {
               { label: "46", value: "46" },
               { label: "48", value: "48" },
               { label: "50", value: "50" },
+              { label: "Autre", value: "Autre" },
             ]}
           />
         </View>
-        <TouchableOpacity style={styles.btnVendre}>
-          {/* onPress={handleSubmit} */}
+        <TouchableOpacity style={styles.btnVendre} onPress={handleSubmit}>
           <Text style={styles.btnVendreText}>Ajouter mon article</Text>
         </TouchableOpacity>
       </View>
