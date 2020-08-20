@@ -59,7 +59,6 @@ const Signup = ({ setToken, setId }) => {
     <ScrollView style={styles.signup}>
       <SafeAreaView>
         <View>
-          <Image source={{}} />
           <TextInput
             autoCapitalize="none"
             value={email}

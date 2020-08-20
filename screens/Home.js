@@ -17,10 +17,11 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
+  // MARCHE PAS
   const fetchData = async () => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
-      console.log(response.data); // NON
+      //console.log(response.data); // NON
       setData(response.data);
       setIsLoading(false);
     } catch (error) {

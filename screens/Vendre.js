@@ -35,6 +35,12 @@ const Vendre = () => {
       const response = await axios.post(
         "https://syma-projet.herokuapp.com/ad/publish",
         {
+          title: title,
+          description: description,
+          price: price,
+          picture: picture,
+        },
+        {
           headers: {
             Authorization: "Bearer " + token,
           },

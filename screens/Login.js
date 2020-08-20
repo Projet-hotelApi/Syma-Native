@@ -34,6 +34,9 @@ const Login = ({ setToken, setId }) => {
       }
     } catch (error) {
       console.log(error.message);
+      if (error.response.status === 401) {
+        alert("Wrong username and/or password");
+      }
     }
   };
 
@@ -60,13 +63,7 @@ const Login = ({ setToken, setId }) => {
             setPassword(text);
           }}
         />
-        <TouchableOpacity
-          style={styles.loginBtnConnect}
-          onPress={handleSubmit}
-          onPress={() => {
-            navigation.navigate("Home");
-          }}
-        >
+        <TouchableOpacity style={styles.loginBtnConnect} onPress={handleSubmit}>
           <Text style={styles.loginBtnText}>Se Connecter</Text>
         </TouchableOpacity>
         <TouchableOpacity
