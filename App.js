@@ -64,7 +64,7 @@ export default function App() {
           <Stack.Screen name="Signup">
             {() => <Signup setId={setId} setToken={setToken} />}
           </Stack.Screen>
-          <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
+          {/* <Stack.Screen name="Home">{() => <Home />}</Stack.Screen> */}
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
