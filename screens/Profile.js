@@ -25,10 +25,10 @@ const Profile = ({ setId, setToken }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-  const [pictureProfile, setPictureProfile] = useState(null);
+  const [pictureProfile, setPictureProfile] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [postalCode, setPostalCode] = useState(null);
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
 
@@ -41,7 +41,7 @@ const Profile = ({ setId, setToken }) => {
           `https://syma-projet.herokuapp.com/user/informations/${id}`,
           { headers: { Authorization: "Bearer " + token } }
         );
-        //console.log(response.data);// OK
+        //console.log("getUser", response.data); // OK
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -83,50 +83,58 @@ const Profile = ({ setId, setToken }) => {
   // UPDATER Photo
   const handleImagePicked = useCallback(async (pickerResult) => {
     const token = await AsyncStorage.getItem("userToken");
+    console.log("lol ===>", pickerResult);
     const id = await AsyncStorage.getItem("userId");
     try {
       setUpLoading(true);
-      if (!pickerResult.cancelled) {
+      let formData = new FormData();
+      if (pickerResult) {
         const uri = pickerResult.uri;
         console.log("pick", pickerResult);
         console.log("uri", uri);
         const uriParts = uri.split(".");
         const fileType = uriParts[uriParts.length - 1];
-        const formData = new FormData();
         formData.append("photo", {
           uri,
           name: `photo.${fileType}`,
           type: `image/${fileType}`,
         });
-        console.log("formData", formData);
-        const response = await axios.post(
-          `https://syma-projet.herokuapp.com/user/update-account/${id}`,
-          formData,
-          {
-            email: email,
-            username: username,
-            description: description,
-            picture: pictureProfile,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            city: city,
-            postalCode: postalCode,
+      }
+      formData.append("email", email);
+      formData.append("username", username);
+      formData.append("description", description);
+      formData.append("pictureProfile", pictureProfile);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("address", address);
+      formData.append("city", city);
+      formData.append("postalCode", Number(postalCode));
+
+      const response = await axios.post(
+        `http://localhost:3000/user/update-account/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data",
           },
-          { headers: { Authorization: "Bearer " + token } }
-        );
-        console.log(response.data);
-        if (
-          Array.isArray(uploadResponse.data.photo) === true &&
-          uploadResponse.data.photo !== ""
-        ) {
-          console.log("uploadResponse.data.photo", uploadResponse.data.photo);
-          // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
-          setData(response.data);
-          alert("Changes updated");
-          setPictureProfile(uploadResponse.data.photo.url);
-          //setData(uploadResponse.data)
         }
+      );
+      console.log(response.data);
+
+      if (
+        Array.isArray(response.data.picture) === true &&
+        response.data.picture.length > 0
+      ) {
+        console.log(
+          "response.data.picture",
+          response.data.picture[0].secure_url
+        );
+        // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
+        setData(response.data);
+        setPictureProfile(response.data.picture[0].secure_url);
+        alert("Changes updated");
       }
     } catch (error) {
       console.log(error.message);
@@ -163,7 +171,7 @@ const Profile = ({ setId, setToken }) => {
         allowsEditing: true,
         aspect: [4, 3],
       });
-      // handleImagePicked(pickerResult);
+      //handleImagePicked(pickerResult);
       setPictureProfile(pickerResult.uri);
     }
   };
@@ -187,31 +195,40 @@ const Profile = ({ setId, setToken }) => {
       ) : (
         <View style={styles.container}>
           <TouchableOpacity onPress={onPress}>
-            {pictureProfile ? (
+            {console.log(
+              "OSKOUUUUUUR ====>",
+              data.picture[data.picture.length - 1]
+            )}
+            {data.picture.length > 0 ? (
               <Image
                 style={styles.image}
-                source={{ uri: pictureProfile.uri }}
+                source={{
+                  uri: data.picture[data.picture.length - 1],
+                }}
               />
-            ) : data.picture ? (
-              <Image style={styles.image} source={{ uri: data.picture }} />
             ) : (
               <Text style={styles.pictureDiv}>
                 Ajouter / changer ma photo de profil
               </Text>
             )}
+            {/* {data.picture.length === 0 && setUpLoading === false ? (
+              <Image style={styles.image} />
+            ) : (
+              <Image style={styles.image} source={{ uri: pictureProfile }} />
+            )} */}
           </TouchableOpacity>
 
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            value={data.email}
+            defaultValue={data.email}
             placeholder="Email"
             onChangeText={(text) => setEmail(text)}
           />
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            value={data.username}
+            defaultValue={data.username}
             placeholder="Username"
             onChangeText={(text) => setUsername(text)}
           />
@@ -241,7 +258,7 @@ const Profile = ({ setId, setToken }) => {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            value={String(data.personnal.postalCode)}
+            defaultValue={String(data.personnal.postalCode)}
             keyboardType={"numeric"}
             placeholder="Code Postal"
             onChangeText={(text) => setPostalCode(text)}
