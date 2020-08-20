@@ -111,7 +111,7 @@ const Profile = ({ setId, setToken }) => {
       formData.append("postalCode", Number(postalCode));
 
       const response = await axios.post(
-        `http://localhost:3000/user/update-account/${id}`,
+        `http://syma-projet.herokuapp.com/user/update-account/${id}`,
         formData,
         {
           headers: {
