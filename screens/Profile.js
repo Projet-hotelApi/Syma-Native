@@ -11,6 +11,7 @@ import {
   AsyncStorage,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import Activity from "../components/Activity";
 
@@ -31,6 +32,7 @@ const Profile = ({ setId, setToken }) => {
   const [postalCode, setPostalCode] = useState(null);
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const navigation = useNavigation();
 
   useEffect(() => {
     const userFounded = async () => {
@@ -211,11 +213,6 @@ const Profile = ({ setId, setToken }) => {
                 Ajouter / changer ma photo de profil
               </Text>
             )}
-            {/* {data.picture.length === 0 && setUpLoading === false ? (
-              <Image style={styles.image} />
-            ) : (
-              <Image style={styles.image} source={{ uri: pictureProfile }} />
-            )} */}
           </TouchableOpacity>
 
           <TextInput
@@ -294,7 +291,12 @@ const Profile = ({ setId, setToken }) => {
           >
             <Text style={styles.btnProfileText}>Se déconnecter</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnProfile}>
+          <TouchableOpacity
+            style={styles.btnProfile}
+            onPress={() => {
+              navigation.navigate("DeleteAccount");
+            }}
+          >
             {/* requete xx=supprimer mon comte : user/delete, mettre une alerte : "attention définitif ..." */}
             <Text style={styles.btnProfileText}>Supprimer mon compte</Text>
           </TouchableOpacity>

@@ -4,17 +4,17 @@ import {
   Text,
   TextInput,
   View,
-  Image,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
 } from "react-native";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
-//import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Signup = ({ setToken, setId }) => {
   const navigation = useNavigation();
+  // champ form
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +24,8 @@ const Signup = ({ setToken, setId }) => {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+
+  // envoie formulaire
 
   const handleSubmit = async () => {
     try {
@@ -56,117 +58,119 @@ const Signup = ({ setToken, setId }) => {
   };
 
   return (
-    <ScrollView style={styles.signup}>
-      <SafeAreaView>
-        <View>
-          <TextInput
-            autoCapitalize="none"
-            value={email}
-            placeholderTextColor="#78244d"
-            placeholder="Email"
-            style={styles.input}
-            onChangeText={(text) => {
-              setEmail(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            value={username}
-            placeholderTextColor="#78244d"
-            placeholder="Username"
-            style={styles.input}
-            onChangeText={(text) => {
-              setUsername(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholderTextColor="#78244d"
-            placeholder="First-name"
-            value={firstName}
-            style={styles.input}
-            onChangeText={(text) => {
-              setFirstName(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Last-name"
-            value={lastName}
-            placeholderTextColor="#78244d"
-            style={styles.input}
-            onChangeText={(text) => {
-              setLastName(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Code Postal"
-            value={postalCode}
-            placeholderTextColor="#78244d"
-            style={styles.input}
-            onChangeText={(text) => {
-              setPostalCode(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Ville"
-            placeholderTextColor="#78244d"
-            value={city}
-            style={styles.input}
-            onChangeText={(text) => {
-              setCity(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            placeholder="Address"
-            placeholderTextColor="#78244d"
-            value={address}
-            style={styles.input}
-            onChangeText={(text) => {
-              setAddress(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            secureTextEntry={true}
-            value={password}
-            placeholderTextColor="#78244d"
-            placeholder="Password"
-            style={styles.input}
-            onChangeText={(text) => {
-              setPassword(text);
-            }}
-          />
-          <TextInput
-            autoCapitalize="none"
-            secureTextEntry={true}
-            placeholderTextColor="#78244d"
-            placeholder="Confirm your password"
-            value={passwordConfirm}
-            style={styles.input}
-            onChangeText={(text) => {
-              setPasswordConfirm(text);
-            }}
-          />
-          <TouchableOpacity style={styles.signupBtn} onPress={handleSubmit}>
-            <Text style={styles.signupBtnText}>S'inscrire</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.signupBtn2}
-            onPress={() => {
-              navigation.navigate("Login");
-            }}
-          >
-            <Text style={styles.signupBtnText2}>
-              Déjà un compte ? Se connecter
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+    <KeyboardAwareScrollView extraScrollHeight={110}>
+      <ScrollView style={styles.signup}>
+        <SafeAreaView>
+          <View>
+            <TextInput
+              autoCapitalize="none"
+              value={email}
+              placeholderTextColor="#78244d"
+              placeholder="Email"
+              style={styles.input}
+              onChangeText={(text) => {
+                setEmail(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              value={username}
+              placeholderTextColor="#78244d"
+              placeholder="Username"
+              style={styles.input}
+              onChangeText={(text) => {
+                setUsername(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholderTextColor="#78244d"
+              placeholder="First-name"
+              value={firstName}
+              style={styles.input}
+              onChangeText={(text) => {
+                setFirstName(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Last-name"
+              value={lastName}
+              placeholderTextColor="#78244d"
+              style={styles.input}
+              onChangeText={(text) => {
+                setLastName(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Code Postal"
+              value={postalCode}
+              placeholderTextColor="#78244d"
+              style={styles.input}
+              onChangeText={(text) => {
+                setPostalCode(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Ville"
+              placeholderTextColor="#78244d"
+              value={city}
+              style={styles.input}
+              onChangeText={(text) => {
+                setCity(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              placeholder="Address"
+              placeholderTextColor="#78244d"
+              value={address}
+              style={styles.input}
+              onChangeText={(text) => {
+                setAddress(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              secureTextEntry={true}
+              value={password}
+              placeholderTextColor="#78244d"
+              placeholder="Password"
+              style={styles.input}
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              secureTextEntry={true}
+              placeholderTextColor="#78244d"
+              placeholder="Confirm your password"
+              value={passwordConfirm}
+              style={styles.input}
+              onChangeText={(text) => {
+                setPasswordConfirm(text);
+              }}
+            />
+            <TouchableOpacity style={styles.signupBtn} onPress={handleSubmit}>
+              <Text style={styles.signupBtnText}>S'inscrire</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.signupBtn2}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text style={styles.signupBtnText2}>
+                Déjà un compte ? Se connecter
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({

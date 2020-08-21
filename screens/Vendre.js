@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import * as ImagePicker from "expo-image-picker";
-
+import * as Permissions from "expo-permissions";
 import axios from "axios";
 
 const Vendre = () => {
@@ -22,34 +22,39 @@ const Vendre = () => {
   const [condition, setCondition] = useState("");
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
-  const [picture, setPicture] = useState("");
+  const [picture, setPicture] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   // if condition !!!
   // PUSH articles dans user => back end
   // insérer image
   // setCondition/condition + size/setSize à insérer dans RNPickerSelect +
 
-  const handleSubmit = async () => {
-    const token = await AsyncStorage.getItem("userToken");
-    try {
-      const response = await axios.post(
-        "https://syma-projet.herokuapp.com/ad/publish",
-        {
-          title: title,
-          price: price,
-          picture: picture,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const handleSubmit = async () => {
+  //   const token = await AsyncStorage.getItem("userToken");
+  //   try {
+  //     const response = await axios.post(
+  //       "https://syma-projet.herokuapp.com/ad/publish",
+  //       {
+  //         price: price,
+  //         description: description,
+  //         title: title,
+  //         picture: picture,
+  //         condition: condition,
+  //         brand: brand,
+  //         size: size,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   const onPress = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -71,21 +76,36 @@ const Vendre = () => {
       }
     );
 
-  const takeAPicture = async () => {
-    const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
-    const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
-    if (
-      cameraPerm.status === "granted" &&
-      cameraRollPerm.status === "granted"
-    ) {
-      const pickerResult = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-      });
-      // fetchData(pickerResult); // appeler la fonction pour photo !!
-      setPicture(pickerResult.uri);
-    }
-  };
+  //   <Button
+  //   onPress={async () => {
+  //     const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+  //     // only if user allows permission to camera roll
+  //     if (cameraRollPerm.status === "granted") {
+  //       const pickerResult = await ImagePicker.launchImageLibraryAsync({
+  //         allowsEditing: true,
+  //         aspect: [4, 3],
+  //       });
+  //       handleImagePicked(pickerResult);
+  //     }
+  //   }}
+  //   title="Pick an image from camera roll"
+  // />
+
+  // const takeAPicture = async () => {
+  //   const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
+  //   const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+  //   if (
+  //     cameraPerm.status === "granted" &&
+  //     cameraRollPerm.status === "granted"
+  //   ) {
+  //     const pickerResult = await ImagePicker.launchCameraAsync({
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //     });
+  //     // fetchData(pickerResult); // appeler la fonction pour photo !!
+  //     setPicture(pickerResult.uri);
+  //   }
+  // };
 
   const accessLibrary = async () => {
     const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -99,10 +119,112 @@ const Vendre = () => {
     }
   };
 
+  const handleImagePicked = useCallback(async (pickerResult) => {
+    const token = await AsyncStorage.getItem("userToken");
+    //console.log("despair ===>", pickerResult);
+    let uploadResponse, uploadResult;
+    try {
+      setUploading(true);
+      if (!pickerResult.cancelled) {
+        const uri = pickerResult;
+        //console.log(uri);
+        //         // Pour isoler l'extension du fichier, afin de connaitre son type (jpg, png...)
+        const uriParts = uri.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        //         // FormData() va nous servir à envoyer un fichier en body de la requête
+        const formData = new FormData();
+        // console.log(formData);
+        //         // On ajoute à l'object formData une clé photo
+        formData.append("picture", {
+          uri,
+          name: `picture.${fileType}`,
+          type: `picture/${fileType}`, // la clé type doit être obligatoirement précisée en React Native
+        });
+        formData.append("price", price);
+        formData.append("description", description);
+        formData.append("title", title);
+        formData.append("condition", condition);
+        formData.append("brand", brand);
+        formData.append("size", size);
+        //console.log("el formdata ===>", formData);
+        //         // La requête pour envoyer l'image au serveur
+        uploadResponse = await axios.post(
+          //           // Ici, il faut envoyer l'id du user en query
+          //           // id rentré en dur dans l'exemple, mais doit être dynamique dans votre code
+          "http://syma-projet.herokuapp.com/ad/publish",
+          // "https://express-airbnb-api.herokuapp.com/user/upload_picture/" +
+          //   "5f3510145bc5310017cdf279",
+          formData,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+
+              // headers: {
+              //   Authorization:
+              //     "Bearer ev5BO5RfKqrCW4mTCt3GNxDo8Zdgt6WG5gSVskqDfyOnPZcnt7AHlc5uvBqAxUfm",
+              //   Accept: "application/json",
+              //   "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        //console.log(uploadResponse.data.picture[0]);
+        if (
+          Array.isArray(uploadResponse.data.picture) === true &&
+          uploadResponse.data.picture.length > 0
+        ) {
+          alert("Tout s'est bien passé =)");
+        }
+      }
+    } catch (e) {
+      // console.log({ uploadResponse });
+      // console.log({ uploadResult });
+      // console.log({ e });
+      alert(e.message);
+    } finally {
+      setUploading(false);
+    }
+  });
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <View>
+          {/* <Text style={styles.exampleText}>
+            Example: Upload ImagePicker result
+          </Text>
+          <Button
+            onPress={async () => {
+              const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+              // only if user allows permission to camera roll
+              if (cameraRollPerm.status === "granted") {
+                const pickerResult = await ImagePicker.launchImageLibraryAsync({
+                  allowsEditing: true,
+                  aspect: [4, 3],
+                });
+                handleImagePicked(pickerResult);
+              }
+            }}
+            title="Pick an image from camera roll"
+          />
+          <Button
+            onPress={async () => {
+              const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
+              const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+              // only if user allows permission to camera AND camera roll
+              if (
+                cameraPerm.status === "granted" &&
+                cameraRollPerm.status === "granted"
+              ) {
+                const pickerResult = await ImagePicker.launchCameraAsync({
+                  allowsEditing: true,
+                  aspect: [4, 3],
+                });
+                handleImagePicked(pickerResult);
+              }
+            }}
+            title="Take a photo"
+          /> */}
+
           <TouchableOpacity onPress={onPress}>
             <Text>Choisir une photo pour mon article</Text>
             <Text>Minimum 1 photo et 5 photos maximum</Text>
@@ -166,18 +288,26 @@ const Vendre = () => {
             // onValueChange={(value) => console.log(value)}
             onValueChange={(value) => setBrand(value)}
             items={[
-              { label: "Autres", value: "Autres" },
-              { label: "Bash", value: "Bash" },
-              { label: "Bérénice", value: "Bérénice" },
-              { label: "Desigual", value: "Desigual" },
+              { label: "Adidas", value: "adidas" },
+              { label: " Asics", value: "asics" },
+              { label: "Balenciaga", value: "balenciaga" },
+              { label: "Balmain", value: "balmain" },
+              { label: "Bershka", value: "bershka" },
+              { label: "Billabong", value: "billabong" },
+              { label: "Burberry", value: "burberry" },
+              { label: "C&A", value: "C&A" },
+              { label: "Cache Cache", value: "cache Cache" },
+              { label: "Calvin Klein", value: "calvin Klein" },
+              { label: "Camaïeu", value: "camaïeu" },
+              { label: "Chanel", value: "chanel" },
+              { label: "Chloé", value: "chloé" },
+              { label: "Desigual", value: "desigual" },
               { label: "H&M", value: "H&M" },
-              { label: "Lacoste", value: "Lacoste" },
-              { label: "Levis", value: "Levis" },
-              { label: "Pull&Bear", value: "Pull&Bear" },
-              { label: "Mango", value: "Mango" },
-              { label: "Stradivarius", value: "Stradivarius" },
-              { label: "The Kooples", value: "The Kooples" },
-              { label: "Zara", value: "Zara" },
+              { label: "Kenzo", value: "kenzo" },
+              { label: "New Look", value: "new look" },
+              { label: "Puma", value: "puma" },
+              { label: "Zara", value: "zara" },
+              { label: "Autre", value: "autre" },
             ]}
           />
         </View>
@@ -201,7 +331,12 @@ const Vendre = () => {
             ]}
           />
         </View>
-        <TouchableOpacity style={styles.btnVendre} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.btnVendre}
+          onPress={() => {
+            handleImagePicked(picture);
+          }}
+        >
           <Text style={styles.btnVendreText}>Ajouter mon article</Text>
         </TouchableOpacity>
       </View>

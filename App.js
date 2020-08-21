@@ -20,6 +20,7 @@ import Search from "./screens/Search";
 import Signup from "./screens/Signup";
 import Annonce from "./components/Annonce";
 import Vendre from "./screens/Vendre";
+import DeleteAccount from "./components/DeleteAccount";
 // Fin Import des composants
 
 export default function App() {
@@ -139,6 +140,12 @@ export default function App() {
                     ),
                   }}
                 >
+                  {/* {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Profile">{() => <Profile setId={setId} setToken={setToken}/>}</Stack.Screen>
+                  <Stack.Screen name="DeleteAccount"> {() => <DeleteAccount setId={setId} setToken={setToken}/>}</Stack.Screen>
+                    </Stack.Navigator>
+                  )} */}
                   {() => <Profile setId={setId} setToken={setToken} />}
                 </Tab.Screen>
                 <Tab.Screen
