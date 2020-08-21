@@ -25,7 +25,9 @@ import DeleteAccount from "./components/DeleteAccount";
 import Commandes from "./screens/Commandes";
 import Dressing from "./screens/Dressing";
 import Evaluations from "./screens/Evaluations";
+import Favoris from "./screens/Favoris";
 import FAQ from "./screens/FAQ";
+import FaqVendre from "./components/FaqVendre";
 // Fin Import des composants
 
 export default function App() {
@@ -106,7 +108,13 @@ export default function App() {
                       >
                         {() => <Home />}
                       </Stack.Screen>
-                      <Stack.Screen name="Annonce">
+                      <Stack.Screen
+                        name="Annonce"
+                        options={{
+                          title: "Annonce",
+                          headerShown: true,
+                        }}
+                      >
                         {() => <Annonce />}
                       </Stack.Screen>
                     </Stack.Navigator>
@@ -208,6 +216,15 @@ export default function App() {
                         )}
                       </Stack.Screen>
                       <Stack.Screen
+                        name="Favoris"
+                        options={{
+                          title: "Mes favoris",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Favoris setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
                         name="FAQ"
                         options={{
                           title: "Qui sommes-nous ?",
@@ -215,6 +232,15 @@ export default function App() {
                         }}
                       >
                         {() => <FAQ />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="FaqVendre"
+                        options={{
+                          title: "Comment vendre mon article ?",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <FaqVendre />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -262,7 +288,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-//  <Stack.Navigator>
-// <Stack.Screen name="Fil d'actualité">{() => <Home />}</Stack.Screen>
-// </Stack.Navigator>

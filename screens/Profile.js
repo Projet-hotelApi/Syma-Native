@@ -85,15 +85,15 @@ const Profile = ({ setId, setToken }) => {
   // UPDATER Photo
   const handleImagePicked = useCallback(async (pickerResult) => {
     const token = await AsyncStorage.getItem("userToken");
-    console.log("lol ===>", pickerResult);
+    // console.log("lol ===>", pickerResult);
     const id = await AsyncStorage.getItem("userId");
     try {
       setUpLoading(true);
       let formData = new FormData();
       if (pickerResult) {
         const uri = pickerResult.uri;
-        console.log("pick", pickerResult);
-        console.log("uri", uri);
+        // console.log("pick", pickerResult);
+        // console.log("uri", uri);
         const uriParts = uri.split(".");
         const fileType = uriParts[uriParts.length - 1];
         formData.append("photo", {
@@ -123,16 +123,16 @@ const Profile = ({ setId, setToken }) => {
           },
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
 
       if (
         Array.isArray(response.data.picture) === true &&
         response.data.picture.length > 0
       ) {
-        console.log(
-          "response.data.picture",
-          response.data.picture[0].secure_url
-        );
+        // console.log(
+        //   "response.data.picture",
+        //   response.data.picture[0].secure_url
+        // );
         // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
         setData(response.data);
         setPictureProfile(response.data.picture[0].secure_url);

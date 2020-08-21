@@ -43,6 +43,14 @@ const ProfileMenu = () => {
       <TouchableOpacity
         style={styles.btnProfileMenu}
         onPress={() => {
+          navigation.navigate("Favoris");
+        }}
+      >
+        <Text style={styles.btnProfileMenuText}>Mes Favoris</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btnProfileMenu}
+        onPress={() => {
           navigation.navigate("FAQ");
         }}
       >

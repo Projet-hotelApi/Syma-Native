@@ -5,12 +5,14 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  TouchableOpacity,
   FlatList,
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import Activity from "../components/Activity";
+import Annonces from "./Annonces";
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -21,7 +23,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
-      //console.log(response.data); // NON
+      //console.log( response.data);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -35,19 +37,25 @@ const Home = () => {
   return isLoading ? (
     <Activity />
   ) : (
-    <ScrollView>
-      <SafeAreaView>
-        <View style={styles.container}>
-          {/* <FlatList
-              data={data.ad}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => {
-                <Text>{item.ad.title}</Text>;
-              }}
-            /> */}
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => {
+          return (
+            // <TouchableOpacity
+            //   onPress={() => {
+            //     navigation.navigate("Annonce", { id: item._id });
+            //   }}
+            // >
+            <Annonces data={item} id={item._id} />
+            // </TouchableOpacity>
+          );
+        }}
+      />
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -56,25 +64,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingLeft: 5,
     paddingRight: 5,
-    flexDirection: "row",
+    // flexDirection: "row",
+    // justifyContent: "center",
   },
-  // annonceContainer: {
-  //   width: "50%",
-  //   height: 250,
-  //   borderColor: "red",
-  //   borderWidth: 1,
-  //   paddingLeft: 10,
-  //   paddingRight: 10,
-  // },
-  // imageAnnonce: {
-  //   width: 150,
-  //   height: 150,
-  // },
-  // informations: {
+  // list: {
+  //   justifyContent: "center",
   //   flexDirection: "row",
-  // },
-  // informationsText: {
-  //   flexDirection: "row",
+  //   flexWrap: "wrap",
   // },
 });
 
