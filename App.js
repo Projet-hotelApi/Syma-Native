@@ -15,12 +15,17 @@ const Tab = createBottomTabNavigator();
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Message from "./screens/Message";
+import ProfileMenu from "./screens/ProfileMenu";
 import Profile from "./screens/Profile";
 import Search from "./screens/Search";
 import Signup from "./screens/Signup";
 import Annonce from "./components/Annonce";
 import Vendre from "./screens/Vendre";
 import DeleteAccount from "./components/DeleteAccount";
+import Commandes from "./screens/Commandes";
+import Dressing from "./screens/Dressing";
+import Evaluations from "./screens/Evaluations";
+import FAQ from "./screens/FAQ";
 // Fin Import des composants
 
 export default function App() {
@@ -65,11 +70,13 @@ export default function App() {
           <Stack.Screen name="Signup">
             {() => <Signup setId={setId} setToken={setToken} />}
           </Stack.Screen>
-          {/* <Stack.Screen name="Home">{() => <Home />}</Stack.Screen> */}
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
-          <Stack.Screen name="Menu">
+          <Stack.Screen
+            name="Menu"
+            options={{ header: () => null, animationEnabled: false }}
+          >
             {() => (
               <Tab.Navigator
                 tabBarOptions={{
@@ -90,7 +97,15 @@ export default function App() {
                 >
                   {() => (
                     <Stack.Navigator>
-                      <Stack.Screen name="Home">{() => <Home />}</Stack.Screen>
+                      <Stack.Screen
+                        options={{
+                          title: "Fil d'actualité",
+                          headerShown: true,
+                        }}
+                        name="Home"
+                      >
+                        {() => <Home />}
+                      </Stack.Screen>
                       <Stack.Screen name="Annonce">
                         {() => <Annonce />}
                       </Stack.Screen>
@@ -108,27 +123,17 @@ export default function App() {
                 >
                   {() => (
                     <Stack.Navigator>
-                      <Stack.Screen name="Vendre">
+                      <Stack.Screen
+                        name="Vendre"
+                        options={{
+                          title: "Vendre un article",
+                          headerShown: true,
+                        }}
+                      >
                         {() => <Vendre />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
-                  {/* NE PAS SUPPRIMER :  */}
-                  {/* {() =>
-                  userToken === null ? (
-                    <Stack.Navigator>
-                      <Stack.Screen name="Login">
-                        {() => <Login setId={setId} setToken={setToken} />}
-                      </Stack.Screen>
-                    </Stack.Navigator>
-                  ) : (
-                    <Stack.Navigator>
-                      <Stack.Screen name="Vendre">
-                        {() => <Vendre />}
-                      </Stack.Screen>
-                    </Stack.Navigator>
-                  )
-                } */}
                 </Tab.Screen>
 
                 <Tab.Screen
@@ -140,13 +145,79 @@ export default function App() {
                     ),
                   }}
                 >
-                  {/* {() => (
+                  {() => (
                     <Stack.Navigator>
-                      <Stack.Screen name="Profile">{() => <Profile setId={setId} setToken={setToken}/>}</Stack.Screen>
-                  <Stack.Screen name="DeleteAccount"> {() => <DeleteAccount setId={setId} setToken={setToken}/>}</Stack.Screen>
+                      <Stack.Screen
+                        name="ProfileMenu"
+                        options={{
+                          title: "Mon Profile",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => (
+                          <ProfileMenu setId={setId} setToken={setToken} />
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Profile"
+                        options={{
+                          title: "Mes informations personnelles",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Profile setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="DeleteAccount"
+                        options={{
+                          title: "Supprimer mon compte",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => (
+                          <DeleteAccount setId={setId} setToken={setToken} />
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Commandes"
+                        options={{
+                          title: "Mes commandes",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Commandes setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Dressing"
+                        options={{
+                          title: "Mon Dressing",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Dressing setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Evaluations"
+                        options={{
+                          title: "Mes évaluations",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => (
+                          <Evaluations setId={setId} setToken={setToken} />
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="FAQ"
+                        options={{
+                          title: "Qui sommes-nous ?",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <FAQ />}
+                      </Stack.Screen>
                     </Stack.Navigator>
-                  )} */}
-                  {() => <Profile setId={setId} setToken={setToken} />}
+                  )}
                 </Tab.Screen>
                 <Tab.Screen
                   name="Message"

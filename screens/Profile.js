@@ -197,10 +197,10 @@ const Profile = ({ setId, setToken }) => {
       ) : (
         <View style={styles.container}>
           <TouchableOpacity onPress={onPress}>
-            {console.log(
+            {/* {console.log(
               "OSKOUUUUUUR ====>",
               data.picture[data.picture.length - 1]
-            )}
+            )} */}
             {data.picture.length > 0 ? (
               <Image
                 style={styles.image}
