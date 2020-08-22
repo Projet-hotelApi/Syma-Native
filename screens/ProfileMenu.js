@@ -2,6 +2,9 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const ProfileMenu = () => {
   const navigation = useNavigation();
@@ -15,6 +18,7 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>Mon Profile</Text>
+        <AntDesign name="profile" size={40} color="white" style={styles.icon} />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.btnProfileMenu}
@@ -23,6 +27,12 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>Mes commandes</Text>
+        <AntDesign
+          name="shoppingcart"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.btnProfileMenu}
@@ -31,6 +41,12 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>Mon dressing</Text>
+        <MaterialCommunityIcons
+          name="dresser"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.btnProfileMenu}
@@ -39,6 +55,12 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>Mes évaluations</Text>
+        <MaterialIcons
+          name="rate-review"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.btnProfileMenu}
@@ -47,6 +69,12 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>Mes Favoris</Text>
+        <MaterialIcons
+          name="favorite"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.btnProfileMenu}
@@ -55,6 +83,12 @@ const ProfileMenu = () => {
         }}
       >
         <Text style={styles.btnProfileMenuText}>FAQ</Text>
+        <AntDesign
+          name="questioncircleo"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -85,6 +119,11 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: "center",
     // textAlignVertical: "center",
+  },
+  icon: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingTop: 10,
   },
 });
 export default ProfileMenu;

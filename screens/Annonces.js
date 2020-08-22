@@ -7,7 +7,6 @@ const Annonces = ({ data, id }) => {
   const navigation = useNavigation();
 
   // CHECKER PHOTO
-  // title ternaire + 20 caractères
   return (
     <View style={styles.container}>
       <View style={styles.annonces}>
@@ -31,9 +30,12 @@ const Annonces = ({ data, id }) => {
         </View>
 
         <View style={styles.informationsDiv}>
-          {/* {data.title.length <= 20 ?} */}
-          {/* moment date */}
-          <Text style={styles.titleAnnonce}>{data.title}</Text>
+          <Text style={styles.titleAnnonce}>
+            {data.title.length <= 20
+              ? data.title
+              : data.title.substring(0, 20) + " ..."}
+          </Text>
+
           <Text style={styles.informationsDivText}>
             {data.brand} / {data.size}
           </Text>
@@ -47,20 +49,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   annonces: {
-    borderColor: "red",
-    borderWidth: 1,
-    marginBottom: 20,
+    marginBottom: 25,
     width: "100%",
-    height: 300,
-    justifyContent: "space-between",
+    height: 250,
   },
   creator: {
     paddingLeft: 10,
     paddingBottom: 5,
   },
   imgProfile: {
-    width: 10,
-    width: 10,
+    width: 20,
+    width: 20,
+    borderRadius: 50,
   },
   imgAnnonce: {
     width: "80%",
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   },
   infoDiv: {
     flexDirection: "row",
+    marginTop: -25,
     paddingLeft: 10,
     paddingRight: 10,
     justifyContent: "space-between",

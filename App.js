@@ -20,6 +20,8 @@ import Profile from "./screens/Profile";
 import Search from "./screens/Search";
 import Signup from "./screens/Signup";
 import Annonce from "./components/Annonce";
+import Acheter from "./screens/Acheter";
+import ProfileVendeur from "./screens/ProfileVendeur";
 import Vendre from "./screens/Vendre";
 import DeleteAccount from "./components/DeleteAccount";
 import Commandes from "./screens/Commandes";
@@ -28,6 +30,8 @@ import Evaluations from "./screens/Evaluations";
 import Favoris from "./screens/Favoris";
 import FAQ from "./screens/FAQ";
 import FaqVendre from "./components/FaqVendre";
+import FaqAcheter from "./components/FaqAcheter";
+import FaqCommunaute from "./components/FaqCommunaute";
 // Fin Import des composants
 
 export default function App() {
@@ -116,6 +120,24 @@ export default function App() {
                         }}
                       >
                         {() => <Annonce />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Acheter"
+                        options={{
+                          title: "Acheter",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Acheter />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="ProfileVendeur"
+                        options={{
+                          title: "Profil du vendeur",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <ProfileVendeur />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -227,7 +249,7 @@ export default function App() {
                       <Stack.Screen
                         name="FAQ"
                         options={{
-                          title: "Qui sommes-nous ?",
+                          title: "Comment est ce que ça marche ?",
                           headerShown: true,
                         }}
                       >
@@ -241,6 +263,24 @@ export default function App() {
                         }}
                       >
                         {() => <FaqVendre />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="FaqAcheter"
+                        options={{
+                          title: "Comment acheter un article ?",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <FaqAcheter />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="FaqCommunaute"
+                        options={{
+                          title: "La communauté SyMa",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <FaqCommunaute />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -269,7 +309,19 @@ export default function App() {
                     ),
                   }}
                 >
-                  {() => <Search />}
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Search"
+                        options={{
+                          title: "Rechercher",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Search />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
                 </Tab.Screen>
               </Tab.Navigator>
             )}

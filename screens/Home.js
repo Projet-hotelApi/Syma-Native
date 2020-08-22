@@ -41,7 +41,7 @@ const Home = () => {
       <FlatList
         data={data}
         numColumns={2}
-        contentContainerStyle={styles.list}
+        // contentContainerStyle={styles.list}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
           return (

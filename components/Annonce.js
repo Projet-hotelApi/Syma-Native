@@ -1,6 +1,4 @@
-// button Acheter qui renvoie composant / screen acheter
-// moment => date
-// creator
+// CAROUSSEL !!!!!!! update plusieurs photos !!
 
 import React, { useState, useEffect } from "react";
 import {
@@ -8,8 +6,8 @@ import {
   Text,
   Image,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import axios from "axios";
 import Activity from "./Activity";
@@ -17,13 +15,13 @@ import Carousel from "react-native-snap-carousel";
 import { AntDesign } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/core";
 
 import moment from "moment";
 require("moment/locale/fr");
 
-// CAROUSSEL !!!!!!! update plusieurs photos !!
-
 const Annonce = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState(false);
@@ -34,12 +32,12 @@ const Annonce = () => {
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/informations/" + params.id
       );
-      console.log(response.data);
+      //console.log("response", response.data);
+      //console.log(response.data.creator._id);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
-      console;
-      log(error.message);
+      console.log(error.message);
     }
   };
 
@@ -52,10 +50,29 @@ const Annonce = () => {
   ) : (
     <ScrollView>
       <View style={styles.container}>
+        {/* <ImageBackground style={styles.image} source={{ uri: data.picture[0] }}>
+          <View style={styles.favorisDiv}>
+            <AntDesign name="heart" size={40} color="black" />
+          </View>
+        </ImageBackground> */}
         <Image style={styles.image} source={{ uri: data.picture[0] }} />
-        <View style={styles.creator}>
-          <Text>Photo + creator</Text>
-        </View>
+        <TouchableOpacity
+          style={styles.creator}
+          onPress={() => {
+            navigation.navigate("ProfileVendeur", { id: data.creator._id });
+          }}
+        >
+          {data.picture[0] ? (
+            <Image
+              style={styles.imgCreator}
+              source={{ uri: data.picture[0] }}
+            />
+          ) : null}
+          <View>
+            <Text style={styles.creatorProfile}>{data.creator.username}</Text>
+            <Text>Evaluations</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.description}>
           <Text style={styles.descriptionTitle}>{data.title}</Text>
           <Text>
@@ -63,8 +80,16 @@ const Annonce = () => {
           </Text>
           <Text>{data.price} € </Text>
         </View>
-        <TouchableOpacity style={styles.btnAcheter}>
+        <TouchableOpacity
+          style={styles.btnAcheter}
+          onPress={() => {
+            navigation.navigate("Acheter");
+          }}
+        >
           <Text style={styles.btnAcheterText}>Acheter</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnAcheter}>
+          <Text style={styles.btnAcheterText}>Contacter le vendeur</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnFavoris}>
           <View style={styles.btnFavorisView}>
@@ -103,9 +128,24 @@ const styles = StyleSheet.create({
     height: 400,
   },
   creator: {
-    marginTop: 5,
-    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
+    width: "40%",
     height: 50,
+    marginTop: 10,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  creatorProfile: {
+    fontWeight: "bold",
+  },
+  imgCreator: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
   },
   description: {
     width: "100%",
