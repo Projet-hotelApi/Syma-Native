@@ -1,52 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { View, Text, StyleSheet, Image } from "react-native";
-// import {
-//   TouchableOpacity,
-//   TextInput,
-//   FlatList,
-// } from "react-native-gesture-handler";
-// import axios from "axios";
-// import { AntDesign } from "@expo/vector-icons";
-// import SearchArticle from "../components/SearchArticle";
-// import SearchUser from "../components/SearchUser";
-
-// const Search = () => {
-//   const [username, setUsername] = useState("");
-//   const [article, setArticle] = useState("");
-//   const [priceMin, setPriceMin] = useState("");
-//   const [priceMax, setPriceMax] = useState("");
-//   const [data, setData] = useState({});
-//   const [isLoading, setIsLoading] = useState(true);
-
-//   return (
-//     <View style={styles.container}>
-//       <TouchableOpacity
-//         onPress={() => {
-//           <SearchArticle />;
-//         }}
-//       >
-//         <Text>Rechercher un article</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity
-//         onPress={() => {
-//           <SearchUser />;
-//         }}
-//       >
-//         <Text>Rechercher un membre</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "white",
-//   },
-// });
-
-// export default Search;
-
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import {
@@ -80,7 +31,7 @@ const Search = () => {
           "&priceMax=" +
           priceMax
       );
-      console.log(response.data);
+      //console.log(response.data);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -174,7 +125,7 @@ const Search = () => {
               <TouchableOpacity
                 style={styles.div}
                 onPress={() => {
-                  navigation.navigate("Annonce", { id: item._id });
+                  navigation.navigate("Annonce", { id: id });
                 }}
               >
                 <Text style={styles.titleAnnonce}>

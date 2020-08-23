@@ -340,6 +340,15 @@ export default function App() {
                       >
                         {() => <Search />}
                       </Stack.Screen>
+                      <Stack.Screen
+                        name="ProfileVendeur"
+                        options={{
+                          title: "Profil du vendeur",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <ProfileVendeur />}
+                      </Stack.Screen>
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
