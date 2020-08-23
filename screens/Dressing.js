@@ -8,12 +8,14 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import Activity from "../components/Activity";
 
 const Dressing = ({ setId, setToken }) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
 
   const fetchData = async () => {
     const token = await AsyncStorage.getItem("userToken");
@@ -28,8 +30,8 @@ const Dressing = ({ setId, setToken }) => {
           },
         }
       );
-      console.log(response.data);
-      console.log("essai", response.data.articles);
+      //console.log(response.data);
+      //console.log("essai", response.data.articles);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -39,24 +41,6 @@ const Dressing = ({ setId, setToken }) => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  // ROUTE POUR SUPPRIMER UNE ANNONCE
-  //  `http://syma-projet.herokuapp.com/ad/delete/${id}`,
-  // isAuthenticated est obligatoire pour pouvoir supprimer cette annonce donc => headers -> authorization ... OBLIGATOIRE (cf ci dessus)
-  //   router.get("/ad/delete/:id", isAuthenticated, async (req, res) => {
-  //     try {
-  //       if (req.params.id) {
-  //         const ad = await Ad.findById(req.params.id);
-  //         await ad.deleteOne();
-  //         res.status(200).json({ message: "Ad deleted" });
-  //     } else {
-  //       res.status(400).json({ message: "Missing parameter" });
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     res.status(400).json({ message: error.message });
-  //   }
-  // });
 
   return isLoading ? (
     <Activity />
@@ -69,6 +53,7 @@ const Dressing = ({ setId, setToken }) => {
           data={data.articles}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => {
+            //console.log("item", item._id);
             return (
               <View style={styles.monDressing}>
                 <Image
@@ -102,11 +87,20 @@ const Dressing = ({ setId, setToken }) => {
                   </View>
                 </View>
                 <View style={styles.btnAnnonce}>
-                  <TouchableOpacity style={styles.btn}>
-                    {/* Route pour supprimer une annonce */}
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                      navigation.navigate("DeleteAdd", { id: item._id });
+                    }}
+                  >
                     <Text style={styles.btnText}>Supprimer </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btn}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                      navigation.navigate("UpdateAdd", { id: item._id });
+                    }}
+                  >
                     <Text style={styles.btnText}>Modifier </Text>
                   </TouchableOpacity>
                 </View>

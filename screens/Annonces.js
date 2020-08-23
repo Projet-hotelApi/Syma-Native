@@ -1,10 +1,18 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
 const Annonces = ({ data, id }) => {
   const navigation = useNavigation();
+  const [favorite, setFavorite] = useState({});
 
   // CHECKER PHOTO
   return (
@@ -23,8 +31,14 @@ const Annonces = ({ data, id }) => {
         </TouchableOpacity>
         <View style={styles.infoDiv}>
           <Text>{data.price} €</Text>
-          <TouchableOpacity>
-            {/* onPress=> Ajout favoris */}
+          <TouchableOpacity
+            onPress={() => {
+              let newFavorite = [...favorite];
+              newFavorite.push(id);
+              setFavorite(newFavorite);
+              alert("Annonce ajoutée aux favoris");
+            }}
+          >
             <AntDesign name="hearto" size={18} color="#78244d" />
           </TouchableOpacity>
         </View>

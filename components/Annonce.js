@@ -26,6 +26,7 @@ const Annonce = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState(false);
   const { params } = useRoute();
+  const [favorite, setFavorite] = useState({});
 
   const fetchData = async () => {
     try {
@@ -91,7 +92,15 @@ const Annonce = () => {
         <TouchableOpacity style={styles.btnAcheter}>
           <Text style={styles.btnAcheterText}>Contacter le vendeur</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnFavoris}>
+        <TouchableOpacity
+          style={styles.btnFavoris}
+          onPress={() => {
+            let newFavorite = [...favorite];
+            newFavorite.push(id);
+            setFavorite(newFavorite);
+            alert("Annonce ajoutée aux favoris");
+          }}
+        >
           <View style={styles.btnFavorisView}>
             <AntDesign name="hearto" size={18} color="#78244d" />
             <Text style={styles.btnFavorisText}>Favoris</Text>

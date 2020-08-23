@@ -32,6 +32,8 @@ import FAQ from "./screens/FAQ";
 import FaqVendre from "./components/FaqVendre";
 import FaqAcheter from "./components/FaqAcheter";
 import FaqCommunaute from "./components/FaqCommunaute";
+import DeleteAdd from "./components/DeleteAdd";
+import UpdateAdd from "./components/UpdateAdd";
 // Fin Import des composants
 
 export default function App() {
@@ -225,6 +227,24 @@ export default function App() {
                         }}
                       >
                         {() => <Dressing setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="DeleteAdd"
+                        options={{
+                          title: "Supprimer une annonce",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <DeleteAdd />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="UpdateAdd"
+                        options={{
+                          title: "Modifier une annonce",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <UpdateAdd />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Evaluations"

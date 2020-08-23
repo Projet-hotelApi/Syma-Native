@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     color: "white",
     paddingTop: 5,
     textAlign: "center",
-    // textAlignVertical: "center",
   },
   icon: {
     marginLeft: "auto",

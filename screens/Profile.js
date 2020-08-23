@@ -15,8 +15,6 @@ import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import Activity from "../components/Activity";
 
-// Apparaitre photo dans BDD => Attention Array !!
-// Updater les infos compte user
 // et au moment de submit, faire un comparatif des input pour n'envoyer que ceux qui ont été modifiés
 
 const Profile = ({ setId, setToken }) => {
