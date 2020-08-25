@@ -14,16 +14,15 @@ import axios from "axios";
 import Activity from "../components/Activity";
 import Annonces from "./Annonces";
 
-const Home = () => {
+const Home = ({ favoris, setFavoris }) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
-  // MARCHE PAS
   const fetchData = async () => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
-      //console.log( response.data);
+      //console.log(response.data);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -50,7 +49,12 @@ const Home = () => {
             //     navigation.navigate("Annonce", { id: item._id });
             //   }}
             // >
-            <Annonces data={item} id={item._id} />
+            <Annonces
+              data={item}
+              id={item._id}
+              favoris={favoris}
+              setFavoris={setFavoris}
+            />
             // </TouchableOpacity>
           );
         }}

@@ -31,7 +31,7 @@ const Search = () => {
           "&priceMax=" +
           priceMax
       );
-      //console.log(response.data);
+      console.log(response.data);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -44,22 +44,24 @@ const Search = () => {
       <View style={styles.recherche}>
         <TextInput
           style={styles.input}
-          placeholder="Article par titre"
+          placeholder="ex : Veste en cuir"
           placeholderTextColor="#78244d"
           onChangeText={(text) => setArticle(text)}
         />
-        <TextInput
-          style={styles.inputPrice}
-          placeholder="Prix Minimum"
-          placeholderTextColor="#78244d"
-          onChangeText={(text) => setPriceMin(text)}
-        />
-        <TextInput
-          style={styles.inputPrice}
-          placeholder="Prix Maximum"
-          placeholderTextColor="#78244d"
-          onChangeText={(text) => setPriceMax(text)}
-        />
+        <View style={styles.searchPrice}>
+          <TextInput
+            style={styles.inputPrice}
+            placeholder="Prix Minimum"
+            placeholderTextColor="#78244d"
+            onChangeText={(text) => setPriceMin(text)}
+          />
+          <TextInput
+            style={styles.inputPrice}
+            placeholder="Prix Maximum"
+            placeholderTextColor="#78244d"
+            onChangeText={(text) => setPriceMax(text)}
+          />
+        </View>
       </View>
       <TouchableOpacity style={styles.btnSearch} onPress={fetchData}>
         <Text style={styles.btnSearchText}>Rechercher</Text>
@@ -74,18 +76,20 @@ const Search = () => {
           placeholderTextColor="#78244d"
           onChangeText={(text) => setArticle(text)}
         />
-        <TextInput
-          style={styles.inputPrice}
-          placeholder="Prix Minimum"
-          placeholderTextColor="#78244d"
-          onChangeText={(text) => setPriceMin(text)}
-        />
-        <TextInput
-          style={styles.inputPrice}
-          placeholder="Prix Maximum"
-          placeholderTextColor="#78244d"
-          onChangeText={(text) => setPriceMax(text)}
-        />
+        <View style={styles.searchPrice}>
+          <TextInput
+            style={styles.inputPrice}
+            placeholder="Prix Minimum"
+            placeholderTextColor="#78244d"
+            onChangeText={(text) => setPriceMin(text)}
+          />
+          <TextInput
+            style={styles.inputPrice}
+            placeholder="Prix Maximum"
+            placeholderTextColor="#78244d"
+            onChangeText={(text) => setPriceMax(text)}
+          />
+        </View>
       </View>
       <TouchableOpacity style={styles.btnSearch} onPress={fetchData}>
         <Text style={styles.btnSearchText}>Rechercher</Text>
@@ -125,7 +129,7 @@ const Search = () => {
               <TouchableOpacity
                 style={styles.div}
                 onPress={() => {
-                  navigation.navigate("Annonce", { id: id });
+                  navigation.navigate("Annonce", { id: item._id });
                 }}
               >
                 <Text style={styles.titleAnnonce}>
@@ -150,17 +154,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  recherche: {
+  searchPrice: {
     flexDirection: "row",
+    marginLeft: 40,
+    marginRight: 40,
     justifyContent: "space-between",
   },
   input: {
     marginLeft: "auto",
     marginRight: "auto",
-    paddingLeft: 5,
+    paddingLeft: 10,
     marginTop: 10,
-    width: 170,
-    height: 40,
+    width: 200,
+    height: 30,
     borderColor: "#78244d",
     borderWidth: 1,
     borderRadius: 15,
@@ -169,8 +175,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputPrice: {
-    width: 100,
-    height: 40,
+    marginTop: 5,
+    width: 130,
+    paddingLeft: 10,
+    height: 30,
+    borderColor: "#78244d",
+    borderWidth: 1,
+    borderRadius: 15,
   },
   btnSearch: {
     marginLeft: "auto",
@@ -178,7 +189,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     marginTop: 10,
     width: 170,
-    height: 40,
+    height: 30,
     backgroundColor: "#78244d",
     borderWidth: 1,
     borderRadius: 15,

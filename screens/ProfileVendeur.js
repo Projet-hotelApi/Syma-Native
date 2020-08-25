@@ -47,7 +47,12 @@ const ProfileVendeur = () => {
         </View>
         <View style={styles.vendeurVille}>
           <Text>Ville : {data.personnal.city} </Text>
-          <TouchableOpacity style={styles.contacter}>
+          <TouchableOpacity
+            style={styles.contacter}
+            onPress={() => {
+              navigation.navigate("Message", { id: data._id });
+            }}
+          >
             <Text style={styles.contacterText}>Contacter {data.username}</Text>
           </TouchableOpacity>
         </View>

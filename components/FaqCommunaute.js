@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 const FaqCommunaute = () => {
@@ -18,9 +18,17 @@ const FaqCommunaute = () => {
       <Text style={styles.retour}>
         Si tu as une suggestion d’amélioration pour faire de SyMa une meilleure
         plateforme ou si tu veux partager ton avis sur une de nos
-        fonctionnalités, partage ton retour d’expérience en nous envoyant un
-        mail directement à contact@syma.com
+        fonctionnalités, partage ton retour d’expérience en nous contactant
+        directement à
       </Text>
+      <TouchableOpacity
+        style={styles.formulaire}
+        onPress={() => {
+          navigation.navigate("Formulaire");
+        }}
+      >
+        <Text style={styles.formulaireText}>ce formulaire.</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -38,6 +46,13 @@ const styles = StyleSheet.create({
   },
   retour: {
     paddingTop: 10,
+  },
+  formulaire: {
+    width: 100,
+    fontWeight: "bold",
+  },
+  formulaireText: {
+    fontWeight: "bold",
   },
 });
 export default FaqCommunaute;

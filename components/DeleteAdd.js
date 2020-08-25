@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/core";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/core";
 
 const DeleteAdd = ({ id }) => {
   const [data, setData] = useState({});
   const { params } = useRoute();
+  const navigation = useNavigation();
 
   const deleteAdd = async () => {
     const token = await AsyncStorage.getItem("userToken");
@@ -22,6 +25,9 @@ const DeleteAdd = ({ id }) => {
       console.log(response.data);
       setData(response.data);
       alert("Votre annonce a été supprimée");
+      if (response.data.message === "Ad deleted") {
+        navigation.navigate("ProfileMenu");
+      }
     } catch (error) {
       console.log(error.message);
     }

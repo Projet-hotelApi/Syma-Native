@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/core";
 
 const UpdateAdd = ({ id }) => {
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
@@ -19,8 +20,18 @@ const UpdateAdd = ({ id }) => {
     const token = await AsyncStorage.getItem("userToken");
 
     try {
+      let formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("condition", condition);
+      formData.append("brand", brand);
+      formData.append("size", size);
+      // MODIFIER PHOTO !!!
+
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/publish/update/" + params.id,
+        formData,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -29,6 +40,7 @@ const UpdateAdd = ({ id }) => {
       );
       console.log(response.data);
       setData(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error.message);
     }

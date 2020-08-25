@@ -14,8 +14,10 @@ import RNPickerSelect from "react-native-picker-select";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/core";
 
 const Vendre = () => {
+  const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
@@ -173,6 +175,7 @@ const Vendre = () => {
           uploadResponse.data.picture.length > 0
         ) {
           alert("Ton article a été mis en ligne");
+          navigation.navigate("Dressing");
         }
       }
     } catch (e) {

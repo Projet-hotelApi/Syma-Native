@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Image,
+  AsyncStorage,
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
@@ -26,7 +27,7 @@ const Annonce = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState(false);
   const { params } = useRoute();
-  const [favorite, setFavorite] = useState({});
+  const [favoris, setFavoris] = useState({});
 
   const fetchData = async () => {
     try {
@@ -89,15 +90,21 @@ const Annonce = () => {
         >
           <Text style={styles.btnAcheterText}>Acheter</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnAcheter}>
+        <TouchableOpacity
+          style={styles.btnAcheter}
+          onPress={() => {
+            navigation.navigate("Message", { id: data.creator._id });
+          }}
+        >
           <Text style={styles.btnAcheterText}>Contacter le vendeur</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.btnFavoris}
-          onPress={() => {
-            let newFavorite = [...favorite];
-            newFavorite.push(id);
-            setFavorite(newFavorite);
+          onPress={async () => {
+            let newFavoris = [...favoris];
+            newFavoris.push(id);
+            setFavoris(newFavoris);
+            await AsyncStorage.setItem("favoris", newFavoris);
             alert("Annonce ajoutée aux favoris");
           }}
         >

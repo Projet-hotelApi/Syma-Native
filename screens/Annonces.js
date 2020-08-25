@@ -10,17 +10,20 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
-const Annonces = ({ data, id }) => {
+const Annonces = ({ data, id, favoris, setFavoris }) => {
   const navigation = useNavigation();
-  const [favorite, setFavorite] = useState({});
+  //const [favoris, setFavoris] = useState([]);
 
-  // CHECKER PHOTO
+  // CHECKER PHOTO PROFILE
   return (
     <View style={styles.container}>
       <View style={styles.annonces}>
         <Text style={styles.creator}>{data.creator.username}</Text>
         {data.picture[0] && (
-          <Image style={styles.imgProfile} source={{ uri: data.picture[0] }} />
+          <Image
+            style={styles.imgProfile}
+            source={{ uri: data.creator.picture[0] }}
+          />
         )}
         <TouchableOpacity
           onPress={() => {
@@ -32,11 +35,38 @@ const Annonces = ({ data, id }) => {
         <View style={styles.infoDiv}>
           <Text>{data.price} €</Text>
           <TouchableOpacity
-            onPress={() => {
-              let newFavorite = [...favorite];
-              newFavorite.push(id);
-              setFavorite(newFavorite);
-              alert("Annonce ajoutée aux favoris");
+            // Parse = tableau
+            // stock dans Async => string donc stringifyé
+            onPress={async () => {
+              // check les favoris
+              //let remove = await AsyncStorage.removeItem("favoris");
+              let currentFav = await AsyncStorage.getItem("favoris");
+              console.log("currentFav", currentFav);
+              if (currentFav === null) {
+                let currentFavTab = [];
+                currentFavTab.push(data);
+                let currentFavTabStringifié = JSON.stringify(currentFavTab);
+                await AsyncStorage.setItem("favoris", currentFavTabStringifié);
+                alert("Annonce ajoutée aux favoris");
+              } else {
+                let currentFavTab = JSON.parse(currentFav);
+                //console.log("currentFavTab1", currentFavTab); //OK
+                let isAlreadyFav = false;
+                // check si quand on clic, on l'a deja dans les fav
+                for (let i = 0; i < currentFavTab.length; i++) {
+                  if (currentFavTab[i]._id === data._id) {
+                    isAlreadyFav = true;
+                  }
+                }
+                if (isAlreadyFav === false) {
+                  currentFavTab.push(data);
+                  console.log("currentFavTab2", currentFavTab);
+                  currentFavTab = JSON.stringify(currentFav);
+                  console.log("stringifié", currentFavTab);
+                  await AsyncStorage.setItem("favoris", currentFavTab);
+                  alert("Annonce ajoutée aux favoris");
+                }
+              }
             }}
           >
             <AntDesign name="hearto" size={18} color="#78244d" />

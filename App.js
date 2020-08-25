@@ -18,6 +18,8 @@ import Message from "./screens/Message";
 import ProfileMenu from "./screens/ProfileMenu";
 import Profile from "./screens/Profile";
 import Search from "./screens/Search";
+import SearchArticle from "./components/SearchArticle";
+import SearchUser from "./components/SearchUser";
 import Signup from "./screens/Signup";
 import Annonce from "./components/Annonce";
 import Acheter from "./screens/Acheter";
@@ -34,12 +36,14 @@ import FaqAcheter from "./components/FaqAcheter";
 import FaqCommunaute from "./components/FaqCommunaute";
 import DeleteAdd from "./components/DeleteAdd";
 import UpdateAdd from "./components/UpdateAdd";
+import Formulaire from "./components/Formulaire";
 // Fin Import des composants
 
 export default function App() {
   const [isLoading, setisLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [favoris, setFavoris] = useState([]);
 
   const setToken = async (token) => {
     if (token) {
@@ -112,7 +116,9 @@ export default function App() {
                         }}
                         name="Home"
                       >
-                        {() => <Home />}
+                        {() => (
+                          <Home favoris={favoris} setFavoris={setFavoris} />
+                        )}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Annonce"
@@ -121,7 +127,9 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => <Annonce />}
+                        {() => (
+                          <Annonce favoris={favoris} setFavoris={setFavoris} />
+                        )}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Acheter"
@@ -163,6 +171,15 @@ export default function App() {
                         }}
                       >
                         {() => <Vendre />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Dressing"
+                        options={{
+                          title: "Mon Dressing",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Dressing setId={setId} setToken={setToken} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -264,7 +281,9 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => <Favoris setId={setId} setToken={setToken} />}
+                        {() => (
+                          <Favoris favoris={favoris} setFavoris={setFavoris} />
+                        )}
                       </Stack.Screen>
                       <Stack.Screen
                         name="FAQ"
@@ -302,6 +321,15 @@ export default function App() {
                       >
                         {() => <FaqCommunaute />}
                       </Stack.Screen>
+                      <Stack.Screen
+                        name="Formulaire"
+                        options={{
+                          title: "Nous contacter",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Formulaire />}
+                      </Stack.Screen>
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
@@ -318,7 +346,19 @@ export default function App() {
                     ),
                   }}
                 >
-                  {() => <Message />}
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Message"
+                        options={{
+                          title: "Message",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Message />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
                 </Tab.Screen>
                 <Tab.Screen
                   name="Search"
@@ -339,6 +379,24 @@ export default function App() {
                         }}
                       >
                         {() => <Search />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="SearchArticle"
+                        options={{
+                          title: "Rechercher un article",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <SearchArticle />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="SearchUser"
+                        options={{
+                          title: "Rechercher un membre",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <SearchUser />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="ProfileVendeur"
