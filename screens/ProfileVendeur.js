@@ -6,6 +6,7 @@ import Activity from "../components/Activity";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const ProfileVendeur = () => {
   const { params } = useRoute();
@@ -18,7 +19,7 @@ const ProfileVendeur = () => {
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/user/" + params.id
       );
-      //console.log("response", response.data);
+      console.log("response", response.data);
       //console.log("article", response.data.articles);
       //console.log(response.data.articles[0].title); // OK
       //console.log(response.data.articles.title); // NON
@@ -33,6 +34,28 @@ const ProfileVendeur = () => {
     fetchData();
   }, []);
 
+  // const reviewsTotal = () => {
+  //   let rating = 0;
+  //   for (let i = 0; i < data.reviews.length; i++) {
+  //     rating += data.reviews[i].ratingNumber;
+  //   }
+  //   rating = rating / data.reviews.length;
+  //   rating = Number(rating.toFixed());
+  //   let starsTab = [];
+  //   for (let i = 0; i < 5; i++) {
+  //     if (i < rating) {
+  //       starsTab.push(
+  //         <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+  //       );
+  //     } else {
+  //       starsTab.push(
+  //         <Ionicons key={i} name="ios-star" size={20} color="grey" />
+  //       );
+  //     }
+  //   }
+  //   return starsTab;
+  // };
+
   return isLoading ? (
     <Activity />
   ) : (
@@ -42,7 +65,11 @@ const ProfileVendeur = () => {
           <Image style={styles.imgProfile} source={{ uri: data.picture[0] }} />
           <View>
             <Text style={styles.vendeurUsername}>{data.username}</Text>
-            <Text>Evaluations</Text>
+            {/* {data.reviews.length === 0 ? (
+              <Text>Pas d'évaluations</Text>
+            ) : (
+              <Text>{reviewsTotal()}</Text>
+            )} */}
           </View>
         </View>
         <View style={styles.vendeurVille}>

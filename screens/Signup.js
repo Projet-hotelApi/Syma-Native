@@ -30,7 +30,7 @@ const Signup = ({ setToken, setId }) => {
   const handleSubmit = async () => {
     try {
       if (password !== passwordConfirm) {
-        alert("Mots de passe différents, merci de rectifier");
+        alert("Mots de passe différents, merci de vérifier");
       } else {
         const response = await axios.post(
           "https://syma-projet.herokuapp.com/user/sign-up",
@@ -54,6 +54,9 @@ const Signup = ({ setToken, setId }) => {
       }
     } catch (error) {
       console.log(error.message);
+      if (error.response.status === 400) {
+        alert("Compte déjà créé avec cet email ou username déjà utilisé");
+      }
     }
   };
 

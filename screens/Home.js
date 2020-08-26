@@ -22,7 +22,7 @@ const Home = ({ favoris, setFavoris }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
-      //console.log(response.data);
+      //console.log("RESPONSE ====", response.data);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {

@@ -177,12 +177,15 @@ const Vendre = () => {
           alert("Ton article a été mis en ligne");
           navigation.navigate("Dressing");
         }
+      } else {
       }
     } catch (e) {
       // console.log({ uploadResponse });
       // console.log({ uploadResult });
       // console.log({ e });
-      alert(e.message);
+      alert(
+        "Afin de poster une annonce, merci de sélectionner une photo, renseigner un titre, une description, un prix, la condition, la taille ainsi que la marque de l'article"
+      );
     } finally {
       setUploading(false);
     }

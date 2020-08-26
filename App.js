@@ -286,6 +286,17 @@ export default function App() {
                         )}
                       </Stack.Screen>
                       <Stack.Screen
+                        name="Annonce"
+                        options={{
+                          title: "Annonce",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => (
+                          <Annonce favoris={favoris} setFavoris={setFavoris} />
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen
                         name="FAQ"
                         options={{
                           title: "Comment est ce que ça marche ?",

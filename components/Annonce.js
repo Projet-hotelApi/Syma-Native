@@ -14,6 +14,7 @@ import axios from "axios";
 import Activity from "./Activity";
 import Carousel from "react-native-snap-carousel";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/core";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
@@ -34,8 +35,8 @@ const Annonce = () => {
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/informations/" + params.id
       );
-      //console.log("response", response.data);
-      //console.log(response.data.creator._id);
+      //console.log("RESPONSE", response.data);
+      console.log(response.data._id);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -46,6 +47,28 @@ const Annonce = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const reviewsTotal = () => {
+    let rating = 0;
+    for (let i = 0; i < data.creator.reviews.length; i++) {
+      rating += data.creator.reviews[i].ratingNumber;
+    }
+    rating = rating / data.creator.reviews.length;
+    rating = Number(rating.toFixed());
+    let starsTab = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < rating) {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+        );
+      } else {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="grey" />
+        );
+      }
+    }
+    return starsTab;
+  };
 
   return isLoading ? (
     <Activity />
@@ -61,18 +84,24 @@ const Annonce = () => {
         <TouchableOpacity
           style={styles.creator}
           onPress={() => {
-            navigation.navigate("ProfileVendeur", { id: data.creator._id });
+            navigation.navigate("ProfileVendeur", {
+              id: data.creator._id,
+            });
           }}
         >
           {data.picture[0] ? (
             <Image
               style={styles.imgCreator}
-              source={{ uri: data.picture[0] }}
+              source={{ uri: data.creator.picture[0] }}
             />
           ) : null}
-          <View>
+          <View style={styles.infoUser}>
             <Text style={styles.creatorProfile}>{data.creator.username}</Text>
-            <Text>Evaluations</Text>
+            {data.creator.reviews.length === 0 ? (
+              <Text>Pas d'évaluations</Text>
+            ) : (
+              <Text>{reviewsTotal()}</Text>
+            )}
           </View>
         </TouchableOpacity>
         <View style={styles.description}>
@@ -85,7 +114,7 @@ const Annonce = () => {
         <TouchableOpacity
           style={styles.btnAcheter}
           onPress={() => {
-            navigation.navigate("Acheter");
+            navigation.navigate("Acheter", { id: data._id });
           }}
         >
           <Text style={styles.btnAcheterText}>Acheter</Text>
@@ -101,11 +130,35 @@ const Annonce = () => {
         <TouchableOpacity
           style={styles.btnFavoris}
           onPress={async () => {
-            let newFavoris = [...favoris];
-            newFavoris.push(id);
-            setFavoris(newFavoris);
-            await AsyncStorage.setItem("favoris", newFavoris);
-            alert("Annonce ajoutée aux favoris");
+            // check les favoris
+            //let remove = await AsyncStorage.removeItem("favoris");
+            let currentFav = await AsyncStorage.getItem("favoris");
+            console.log("currentFav", currentFav);
+            if (currentFav === null) {
+              let currentFavTab = [];
+              currentFavTab.push(data);
+              let currentFavTabStringifié = JSON.stringify(currentFavTab);
+              await AsyncStorage.setItem("favoris", currentFavTabStringifié);
+              alert("Annonce ajoutée aux favoris");
+            } else {
+              let currentFavTab = JSON.parse(currentFav);
+              //console.log("currentFavTab1", currentFavTab); //OK
+              let isAlreadyFav = false;
+              // check si quand on clic, on l'a deja dans les fav
+              for (let i = 0; i < currentFavTab.length; i++) {
+                if (currentFavTab[i]._id === data._id) {
+                  isAlreadyFav = true;
+                }
+              }
+              if (isAlreadyFav === false) {
+                currentFavTab.push(data);
+                console.log("currentFavTab2", currentFavTab);
+                currentFavTab = JSON.stringify(currentFavTab);
+                console.log("stringifié", currentFavTab);
+                await AsyncStorage.setItem("favoris", currentFavTab);
+                alert("Annonce ajoutée aux favoris");
+              }
+            }
           }}
         >
           <View style={styles.btnFavorisView}>
@@ -162,6 +215,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
+  },
+  infoUser: {
+    paddingLeft: 10,
   },
   description: {
     width: "100%",

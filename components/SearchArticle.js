@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, AsyncStorage } from "react-native";
 import {
   TouchableOpacity,
   TextInput,
@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/core";
 // REQUETE POUR AFFICHER ARTICLE
 
 const Search = () => {
-  const [username, setUsername] = useState("");
   const [article, setArticle] = useState("");
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
@@ -115,16 +114,6 @@ const Search = () => {
 
               <View style={styles.infoDiv}>
                 <Text>{item.price} €</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    let newFavorite = [...favorite];
-                    newFavorite.push(id);
-                    setFavorite(newFavorite);
-                    alert("Annonce ajoutée aux favoris");
-                  }}
-                >
-                  <AntDesign name="hearto" size={18} color="#78244d" />
-                </TouchableOpacity>
               </View>
               <TouchableOpacity
                 style={styles.div}

@@ -19,7 +19,7 @@ const Annonces = ({ data, id, favoris, setFavoris }) => {
     <View style={styles.container}>
       <View style={styles.annonces}>
         <Text style={styles.creator}>{data.creator.username}</Text>
-        {data.picture[0] && (
+        {data.creator.picture[0] && (
           <Image
             style={styles.imgProfile}
             source={{ uri: data.creator.picture[0] }}
@@ -61,7 +61,7 @@ const Annonces = ({ data, id, favoris, setFavoris }) => {
                 if (isAlreadyFav === false) {
                   currentFavTab.push(data);
                   console.log("currentFavTab2", currentFavTab);
-                  currentFavTab = JSON.stringify(currentFav);
+                  currentFavTab = JSON.stringify(currentFavTab);
                   console.log("stringifié", currentFavTab);
                   await AsyncStorage.setItem("favoris", currentFavTab);
                   alert("Annonce ajoutée aux favoris");
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   imgProfile: {
-    width: 20,
-    width: 20,
+    width: 40,
+    width: 40,
     borderRadius: 50,
   },
   imgAnnonce: {

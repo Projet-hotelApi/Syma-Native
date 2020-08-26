@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/core";
+import { Ionicons } from "@expo/vector-icons";
 
 const Search = () => {
   const [username, setUsername] = useState("");
@@ -19,11 +20,34 @@ const Search = () => {
         }
       );
       console.log(response.data);
+      console.log("number", response.data.reviews.ratingNumber); // undefined
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const reviewsTotal = () => {
+    let rating = 0;
+    for (let i = 0; i < data.reviews.length; i++) {
+      rating += data.reviews[i].ratingNumber;
+    }
+    rating = rating / data.reviews.length;
+    rating = Number(rating.toFixed());
+    let starsTab = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < rating) {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+        );
+      } else {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="grey" />
+        );
+      }
+    }
+    return starsTab;
   };
 
   return isLoading ? (
@@ -73,6 +97,11 @@ const Search = () => {
         <View style={styles.resultLeft}>
           <Text style={styles.resultUsername}>{data.username}</Text>
           <Text>{data.description}</Text>
+          {data.reviews.length === 0 ? (
+            <Text style={styles.evaluations}>Pas d'évaluations</Text>
+          ) : (
+            <Text style={styles.evaluations}>{reviewsTotal()}</Text>
+          )}
         </View>
 
         <Image style={styles.imgProfile} source={{ uri: data.picture[0] }} />
@@ -143,6 +172,9 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 50,
+  },
+  evaluations: {
+    paddingTop: 15,
   },
 });
 

@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   },
   pictureDiv: {
     width: "70%",
-    height: 100,
+    height: 50,
     borderColor: "#78244d",
     borderWidth: 1,
     borderRadius: 5,
@@ -323,6 +323,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   input: {
     borderColor: "#78244d",
