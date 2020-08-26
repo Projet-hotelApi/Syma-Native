@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Text, View, AsyncStorage } from "react-native";
 import axios from "axios";
 import { useRoute } from "@react-navigation/core";
-import { PaymentsStripe as Stripe } from "expo-payments-stripe";
+//import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 
-Stripe.setOptionsAsync({
-  publishableKey:
-    "pk_test_51HKK1nKaVfgIv2VzrB2yOesQgjuzKh1vNBznGtZHOzCSCVm0qkszj79wNmpgzJjevsCNvDsRVqCMBhOzwz0T0LvD000U24AkEI",
-});
+// Stripe.setOptionsAsync({
+//   publishableKey:
+//     "pk_test_51HKK1nKaVfgIv2VzrB2yOesQgjuzKh1vNBznGtZHOzCSCVm0qkszj79wNmpgzJjevsCNvDsRVqCMBhOzwz0T0LvD000U24AkEI",
+// });
 
 const Acheter = ({ id }) => {
   const { params } = useRoute();
