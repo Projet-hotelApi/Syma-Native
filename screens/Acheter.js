@@ -20,6 +20,7 @@ const Acheter = ({ id }) => {
   const fetchData = async () => {
     const token = await AsyncStorage.getItem("userToken");
     try {
+      const stripeToken = stripeResponse.token.id;
       const response = await axios.post(
         "http://localhost:3000/payment/" + params.id,
         // "http://syma-projet.herokuapp.com/payment/" + params.id,
@@ -38,7 +39,6 @@ const Acheter = ({ id }) => {
           },
         }
       );
-      const tokenStripe = await Stripe.paymentRequestWithCardFormAsync(options);
       //console.log(tokenStripe);
       console.log("RESPONSE", response.data);
       //console.log(response.data._id);
@@ -58,7 +58,9 @@ const Acheter = ({ id }) => {
     </View>
   ) : (
     <View>
-      <Text>ebvovnzoivbzeovboezvbo</Text>
+      <Text>{title}</Text>
+      <Text>{price}</Text>
+      <Text>{username}</Text>
     </View>
   );
 };

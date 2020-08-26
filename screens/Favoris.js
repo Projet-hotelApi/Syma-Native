@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Favoris = ({ favoris, setFavoris }) => {
@@ -20,7 +21,7 @@ const Favoris = ({ favoris, setFavoris }) => {
       let fav = await AsyncStorage.getItem("favoris");
       //console.log("fav", fav);
       let favTab = JSON.parse(fav);
-      console.log("favTab", favTab);
+      //console.log("favTab", favTab);
       setData(favTab);
       setIsLoading(false);
     } catch (error) {
@@ -32,7 +33,10 @@ const Favoris = ({ favoris, setFavoris }) => {
     favorite();
   }, []);
 
-  // const remove = () => {}
+  const remove = () => {
+    //console.log(item._id);
+    alert("Remove");
+  };
 
   return isLoading ? (
     <Text>Favoris en cours chargement</Text>
@@ -44,12 +48,7 @@ const Favoris = ({ favoris, setFavoris }) => {
         renderItem={({ item }) => {
           //console.log(item);
           return (
-            <TouchableOpacity
-              style={styles.annonces}
-              onPress={() => {
-                navigation.navigate("Annonce", { id: item._id });
-              }}
-            >
+            <View style={styles.annonces}>
               <Text style={styles.creator}>{item.creator.username}</Text>
               {item.picture[0] && (
                 <Image
@@ -57,13 +56,33 @@ const Favoris = ({ favoris, setFavoris }) => {
                   source={{ uri: item.creator.picture[0] }}
                 />
               )}
-              <Image
-                style={styles.imgAnnonce}
-                source={{ uri: item.picture[0] }}
-              />
+              <TouchableOpacity
+                style={styles.btnAnnonce}
+                onPress={() => {
+                  navigation.navigate("Annonce", { id: item._id });
+                }}
+              >
+                <Image
+                  style={styles.imgAnnonce}
+                  source={{ uri: item.picture[0] }}
+                />
+              </TouchableOpacity>
               <View style={styles.infoDiv}>
                 <Text>{item.price} €</Text>
+                <TouchableOpacity
+                  onPress={async () => {
+                    console.log(item._id);
+                    await AsyncStorage.removeItem(item._id);
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="heart-broken"
+                    size={24}
+                    color="#78244d"
+                  />
+                </TouchableOpacity>
               </View>
+
               <View style={styles.informationsDiv}>
                 <Text style={styles.titleAnnonce}>
                   {item.title.length <= 20
@@ -75,7 +94,7 @@ const Favoris = ({ favoris, setFavoris }) => {
                   {item.brand} / {item.size}
                 </Text>
               </View>
-            </TouchableOpacity>
+            </View>
           );
         }}
       />
@@ -92,25 +111,28 @@ const styles = StyleSheet.create({
   annonces: {
     marginBottom: 50,
     width: "100%",
-    height: 250,
-  },
-  creator: {
-    paddingLeft: 10,
-    paddingBottom: 5,
+    height: 270,
   },
   imgProfile: {
     width: 20,
     width: 20,
     borderRadius: 50,
   },
+  btnAnnonce: {
+    width: "90%",
+    height: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
   imgAnnonce: {
-    width: "80%",
-    height: "80%",
+    width: "90%",
+    height: "90%",
     marginLeft: "auto",
     marginRight: "auto",
   },
   infoDiv: {
     flexDirection: "row",
+    marginTop: -25,
     paddingLeft: 10,
     paddingRight: 10,
     justifyContent: "space-between",

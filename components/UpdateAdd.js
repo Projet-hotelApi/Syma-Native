@@ -118,7 +118,7 @@ const UpdateAdd = ({ id }) => {
   return (
     <View style={styles.container}>
       {isLoading === false ? (
-        <View>
+        <View style={styles.container}>
           <Text> Update annonce</Text>​
           {/* <Image style={styles.imgDressing} value={response.data.picture} /> */}
           ​

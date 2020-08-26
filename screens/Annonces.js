@@ -13,18 +13,22 @@ import { useNavigation } from "@react-navigation/core";
 const Annonces = ({ data, id, favoris, setFavoris }) => {
   const navigation = useNavigation();
   //const [favoris, setFavoris] = useState([]);
+  //console.log("essai", data.creator.picture[0]);
 
   // CHECKER PHOTO PROFILE
   return (
     <View style={styles.container}>
       <View style={styles.annonces}>
-        <Text style={styles.creator}>{data.creator.username}</Text>
-        {data.creator.picture[0] && (
-          <Image
-            style={styles.imgProfile}
-            source={{ uri: data.creator.picture[0] }}
-          />
-        )}
+        <View style={styles.creatorAnnonce}>
+          {data.creator.picture[0] ? (
+            <Image
+              style={styles.imgProfile}
+              source={{ uri: data.creator.picture[0] }}
+            />
+          ) : null}
+          <Text style={styles.creator}>{data.creator.username}</Text>
+        </View>
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Annonce", { id: id });
@@ -50,7 +54,7 @@ const Annonces = ({ data, id, favoris, setFavoris }) => {
                 alert("Annonce ajoutée aux favoris");
               } else {
                 let currentFavTab = JSON.parse(currentFav);
-                //console.log("currentFavTab1", currentFavTab); //OK
+                //console.log("currentFavTab1", currentFavTab);
                 let isAlreadyFav = false;
                 // check si quand on clic, on l'a deja dans les fav
                 for (let i = 0; i < currentFavTab.length; i++) {
@@ -101,9 +105,16 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 5,
   },
+  creatorAnnonce: {
+    paddingLeft: 10,
+    paddingBottom: 5,
+    marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
   imgProfile: {
-    width: 40,
-    width: 40,
+    width: 30,
+    height: 30,
     borderRadius: 50,
   },
   imgAnnonce: {

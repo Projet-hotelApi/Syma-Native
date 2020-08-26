@@ -28,9 +28,7 @@ const Vendre = () => {
   const [uploading, setUploading] = useState(false);
 
   // if condition !!!
-  // PUSH articles dans user => back end
   // insérer image
-  // setCondition/condition + size/setSize à insérer dans RNPickerSelect +
 
   // const handleSubmit = async () => {
   //   const token = await AsyncStorage.getItem("userToken");
@@ -93,21 +91,20 @@ const Vendre = () => {
   //   title="Pick an image from camera roll"
   // />
 
-  // const takeAPicture = async () => {
-  //   const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
-  //   const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
-  //   if (
-  //     cameraPerm.status === "granted" &&
-  //     cameraRollPerm.status === "granted"
-  //   ) {
-  //     const pickerResult = await ImagePicker.launchCameraAsync({
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //     });
-  //     // fetchData(pickerResult); // appeler la fonction pour photo !!
-  //     setPicture(pickerResult.uri);
-  //   }
-  // };
+  const takeAPicture = async () => {
+    const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
+    const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+    if (
+      cameraPerm.status === "granted" &&
+      cameraRollPerm.status === "granted"
+    ) {
+      const pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+      setPicture(pickerResult.uri);
+    }
+  };
 
   const accessLibrary = async () => {
     const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -116,7 +113,6 @@ const Vendre = () => {
         allowsEditing: true,
         aspect: [1, 1],
       });
-      // handleImagePicked(pickerResult); // appeler la fonction pour photo !!
       setPicture(pickerResult.uri);
     }
   };
@@ -175,7 +171,7 @@ const Vendre = () => {
           uploadResponse.data.picture.length > 0
         ) {
           alert("Ton article a été mis en ligne");
-          navigation.navigate("Dressing");
+          navigation.navigate("Home");
         }
       } else {
       }

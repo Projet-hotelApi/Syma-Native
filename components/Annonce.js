@@ -36,7 +36,7 @@ const Annonce = () => {
         "http://syma-projet.herokuapp.com/ad/informations/" + params.id
       );
       //console.log("RESPONSE", response.data);
-      console.log(response.data._id);
+      //console.log(response.data._id); OK
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -114,7 +114,12 @@ const Annonce = () => {
         <TouchableOpacity
           style={styles.btnAcheter}
           onPress={() => {
-            navigation.navigate("Acheter", { id: data._id });
+            navigation.navigate("Acheter", {
+              id: data._id,
+              title: data.title,
+              username: data.creator.username,
+              price: data.price,
+            });
           }}
         >
           <Text style={styles.btnAcheterText}>Acheter</Text>
@@ -130,7 +135,6 @@ const Annonce = () => {
         <TouchableOpacity
           style={styles.btnFavoris}
           onPress={async () => {
-            // check les favoris
             //let remove = await AsyncStorage.removeItem("favoris");
             let currentFav = await AsyncStorage.getItem("favoris");
             console.log("currentFav", currentFav);

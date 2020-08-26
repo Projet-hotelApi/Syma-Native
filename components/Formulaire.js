@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Formulaire = () => {
   const [email, setEmail] = useState("");
@@ -14,70 +19,75 @@ const Formulaire = () => {
   const submit = () => {
     if (email && message && subject && firstName && lastName) {
       alert("Votre message a bien été envoyé");
-      navigation.navigate("Home");
+      navigation.navigate("ProfileMenu");
     } else {
       alert("Merci de remplir tous les champs");
     }
   };
+
   return (
-    <View style={styles.container}>
-      <TextInput
-        autoCapitalize="none"
-        value={firstName}
-        placeholderTextColor="#78244d"
-        placeholder="Votre prénom"
-        style={styles.input}
-        onChangeText={(text) => {
-          setFirstName(text);
-        }}
-      />
-      <TextInput
-        autoCapitalize="none"
-        value={lastName}
-        placeholderTextColor="#78244d"
-        placeholder="Votre nom"
-        style={styles.input}
-        onChangeText={(text) => {
-          setLastName(text);
-        }}
-      />
-      <TextInput
-        autoCapitalize="none"
-        value={email}
-        placeholderTextColor="#78244d"
-        placeholder="Votre adresse mail"
-        style={styles.input}
-        onChangeText={(text) => {
-          setEmail(text);
-        }}
-      />
-      <TextInput
-        autoCapitalize="none"
-        value={subject}
-        placeholderTextColor="#78244d"
-        placeholder="Sujet"
-        style={styles.input}
-        onChangeText={(text) => {
-          setSubject(text);
-        }}
-      />
-      <TextInput
-        autoCapitalize="none"
-        value={message}
-        multiline={true}
-        numberOfLines={50}
-        maxLength={5000}
-        placeholderTextColor="#78244d"
-        placeholder="Votre message"
-        style={styles.inputDescription}
-        onChangeText={(text) => {
-          setMessage(text);
-        }}
-      />
-      <TouchableOpacity style={styles.btn} onPress={() => submit()}>
-        <Text style={styles.btnText}>Envoyer</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View>
+          <TextInput
+            autoCapitalize="none"
+            value={firstName}
+            placeholderTextColor="#78244d"
+            placeholder="Votre prénom"
+            style={styles.input}
+            onChangeText={(text) => {
+              setFirstName(text);
+            }}
+          />
+          <TextInput
+            autoCapitalize="none"
+            value={lastName}
+            placeholderTextColor="#78244d"
+            placeholder="Votre nom"
+            style={styles.input}
+            onChangeText={(text) => {
+              setLastName(text);
+            }}
+          />
+          <TextInput
+            autoCapitalize="none"
+            value={email}
+            placeholderTextColor="#78244d"
+            placeholder="Votre adresse mail"
+            style={styles.input}
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
+          />
+          <TextInput
+            autoCapitalize="none"
+            value={subject}
+            placeholderTextColor="#78244d"
+            placeholder="Sujet"
+            style={styles.input}
+            onChangeText={(text) => {
+              setSubject(text);
+            }}
+          />
+          <TextInput
+            autoCapitalize="none"
+            value={message}
+            multiline={true}
+            numberOfLines={50}
+            maxLength={5000}
+            placeholderTextColor="#78244d"
+            placeholder="Votre message"
+            style={styles.inputDescription}
+            onChangeText={(text) => {
+              setMessage(text);
+            }}
+          />
+          <TouchableOpacity style={styles.btn} onPress={() => submit()}>
+            <Text style={styles.btnText}>Envoyer</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

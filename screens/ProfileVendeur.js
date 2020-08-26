@@ -19,9 +19,8 @@ const ProfileVendeur = () => {
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/user/" + params.id
       );
-      console.log("response", response.data);
-      //console.log("article", response.data.articles);
-      //console.log(response.data.articles[0].title); // OK
+      //console.log("response", response.data);
+      //console.log(response.data.articles[0]._id); // OK
       //console.log(response.data.articles.title); // NON
       setData(response.data);
       setIsLoading(false);
@@ -106,7 +105,12 @@ const ProfileVendeur = () => {
                   <View style={styles.caracteristique}>
                     <View>
                       <Text style={styles.price}>{item.price} €</Text>
-                      <Text style={styles.divers}>{item.brand}</Text>
+                      <Text style={styles.divers}>
+                        {" "}
+                        {item.brand.length <= 13
+                          ? item.brand
+                          : item.brand.substring(0, 13) + " ..."}
+                      </Text>
                       <Text style={styles.divers}>{item.size} </Text>
                     </View>
                     <View>
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
   },
   divers: {
     paddingLeft: 10,
+    paddingRight: 5,
   },
   annonces: {
     marginBottom: 25,

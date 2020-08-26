@@ -23,6 +23,7 @@ const Home = ({ favoris, setFavoris }) => {
     try {
       const response = await axios.get("https://syma-projet.herokuapp.com/ad");
       //console.log("RESPONSE ====", response.data);
+      //console.log(response.data.creator.picture[0]);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
