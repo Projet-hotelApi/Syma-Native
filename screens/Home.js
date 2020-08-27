@@ -14,7 +14,7 @@ import axios from "axios";
 import Activity from "../components/Activity";
 import Annonces from "./Annonces";
 
-const Home = ({ favoris, setFavoris }) => {
+const Home = ({ favoris, setFavoris, userToken }) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();

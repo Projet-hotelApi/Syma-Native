@@ -117,7 +117,11 @@ export default function App() {
                         name="Home"
                       >
                         {() => (
-                          <Home favoris={favoris} setFavoris={setFavoris} />
+                          <Home
+                            favoris={favoris}
+                            setFavoris={setFavoris}
+                            userToken={userToken}
+                          />
                         )}
                       </Stack.Screen>
                       <Stack.Screen
@@ -128,8 +132,21 @@ export default function App() {
                         }}
                       >
                         {() => (
-                          <Annonce favoris={favoris} setFavoris={setFavoris} />
+                          <Annonce
+                            favoris={favoris}
+                            setFavoris={setFavoris}
+                            userToken={userToken}
+                          />
                         )}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Dressing"
+                        options={{
+                          title: "Mon Dressing",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Dressing setId={setId} setToken={setToken} />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Acheter"

@@ -10,12 +10,9 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
-const Annonces = ({ data, id, favoris, setFavoris }) => {
+const Annonces = ({ data, id }) => {
   const navigation = useNavigation();
-  //const [favoris, setFavoris] = useState([]);
-  //console.log("essai", data.creator.picture[0]);
 
-  // CHECKER PHOTO PROFILE
   return (
     <View style={styles.container}>
       <View style={styles.annonces}>

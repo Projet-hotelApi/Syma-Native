@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/core";
 import moment from "moment";
 require("moment/locale/fr");
 
-const Annonce = () => {
+const Annonce = ({ userToken }) => {
   const navigation = useNavigation();
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +36,7 @@ const Annonce = () => {
         "http://syma-projet.herokuapp.com/ad/informations/" + params.id
       );
       //console.log("RESPONSE", response.data);
-      //console.log(response.data._id); OK
+      //console.log(response.data.creator.token);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -111,65 +111,81 @@ const Annonce = () => {
           </Text>
           <Text>{data.price} € </Text>
         </View>
-        <TouchableOpacity
-          style={styles.btnAcheter}
-          onPress={() => {
-            navigation.navigate("Acheter", {
-              id: data._id,
-              title: data.title,
-              username: data.creator.username,
-              price: data.price,
-            });
-          }}
-        >
-          <Text style={styles.btnAcheterText}>Acheter</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btnAcheter}
-          onPress={() => {
-            navigation.navigate("Message", { id: data.creator._id });
-          }}
-        >
-          <Text style={styles.btnAcheterText}>Contacter le vendeur</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btnFavoris}
-          onPress={async () => {
-            //let remove = await AsyncStorage.removeItem("favoris");
-            let currentFav = await AsyncStorage.getItem("favoris");
-            console.log("currentFav", currentFav);
-            if (currentFav === null) {
-              let currentFavTab = [];
-              currentFavTab.push(data);
-              let currentFavTabStringifié = JSON.stringify(currentFavTab);
-              await AsyncStorage.setItem("favoris", currentFavTabStringifié);
-              alert("Annonce ajoutée aux favoris");
-            } else {
-              let currentFavTab = JSON.parse(currentFav);
-              //console.log("currentFavTab1", currentFavTab); //OK
-              let isAlreadyFav = false;
-              // check si quand on clic, on l'a deja dans les fav
-              for (let i = 0; i < currentFavTab.length; i++) {
-                if (currentFavTab[i]._id === data._id) {
-                  isAlreadyFav = true;
+        {userToken === data.creator.token ? (
+          <TouchableOpacity
+            style={styles.voirProfile}
+            onPress={() => {
+              navigation.navigate("Dressing");
+            }}
+          >
+            <Text style={styles.voirProfileText}>Voir mon dressing</Text>
+          </TouchableOpacity>
+        ) : (
+          <View>
+            <TouchableOpacity
+              style={styles.btnAcheter}
+              onPress={() => {
+                navigation.navigate("Acheter", {
+                  id: data._id,
+                  title: data.title,
+                  username: data.creator.username,
+                  price: data.price,
+                });
+              }}
+            >
+              <Text style={styles.btnAcheterText}>Acheter</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnAcheter}
+              onPress={() => {
+                navigation.navigate("Message", { id: data.creator._id });
+              }}
+            >
+              <Text style={styles.btnAcheterText}>Contacter le vendeur</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnFavoris}
+              onPress={async () => {
+                //let remove = await AsyncStorage.removeItem("favoris");
+                let currentFav = await AsyncStorage.getItem("favoris");
+                console.log("currentFav", currentFav);
+                if (currentFav === null) {
+                  let currentFavTab = [];
+                  currentFavTab.push(data);
+                  let currentFavTabStringifié = JSON.stringify(currentFavTab);
+                  await AsyncStorage.setItem(
+                    "favoris",
+                    currentFavTabStringifié
+                  );
+                  alert("Annonce ajoutée aux favoris");
+                } else {
+                  let currentFavTab = JSON.parse(currentFav);
+                  //console.log("currentFavTab1", currentFavTab); //OK
+                  let isAlreadyFav = false;
+                  // check si quand on clic, on l'a deja dans les fav
+                  for (let i = 0; i < currentFavTab.length; i++) {
+                    if (currentFavTab[i]._id === data._id) {
+                      isAlreadyFav = true;
+                    }
+                  }
+                  if (isAlreadyFav === false) {
+                    currentFavTab.push(data);
+                    console.log("currentFavTab2", currentFavTab);
+                    currentFavTab = JSON.stringify(currentFavTab);
+                    console.log("stringifié", currentFavTab);
+                    await AsyncStorage.setItem("favoris", currentFavTab);
+                    alert("Annonce ajoutée aux favoris");
+                  }
                 }
-              }
-              if (isAlreadyFav === false) {
-                currentFavTab.push(data);
-                console.log("currentFavTab2", currentFavTab);
-                currentFavTab = JSON.stringify(currentFavTab);
-                console.log("stringifié", currentFavTab);
-                await AsyncStorage.setItem("favoris", currentFavTab);
-                alert("Annonce ajoutée aux favoris");
-              }
-            }
-          }}
-        >
-          <View style={styles.btnFavorisView}>
-            <AntDesign name="hearto" size={18} color="#78244d" />
-            <Text style={styles.btnFavorisText}>Favoris</Text>
+              }}
+            >
+              <View style={styles.btnFavorisView}>
+                <AntDesign name="hearto" size={18} color="#78244d" />
+                <Text style={styles.btnFavorisText}>Favoris</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={styles.presentation}
           onPress={() => {
@@ -232,6 +248,22 @@ const styles = StyleSheet.create({
   },
   descriptionTitle: {
     fontWeight: "bold",
+  },
+  voirProfile: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 10,
+    width: 200,
+    height: 40,
+    backgroundColor: "#78244d",
+    borderRadius: 15,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  voirProfileText: {
+    color: "white",
+    fontSize: 18,
   },
   btnAcheter: {
     marginLeft: "auto",

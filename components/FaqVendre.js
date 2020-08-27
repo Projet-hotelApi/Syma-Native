@@ -33,8 +33,8 @@ const FaqVendre = () => {
           <Text>
             Chez SyMa, afin de satisfaire nos clientes, nous avons eu l'idée de
             fixer un frais de port quelque soit la taille de ton colis, que ton
-            article fasse 1 kg ou 5 kg, les frais de vente sont de 3,20€,
-            seulement !
+            article fasse 1 kg ou 5 kg, les frais de vente sont de 3€, seulement
+            !
           </Text>
           <Text>Les frais de port sont payés par l'acheteur</Text>
           <Text style={styles.retour}>

@@ -170,8 +170,8 @@ const Vendre = () => {
           Array.isArray(uploadResponse.data.picture) === true &&
           uploadResponse.data.picture.length > 0
         ) {
-          alert("Ton article a été mis en ligne");
-          navigation.navigate("Home");
+          alert("Ton article sera bientôt mis en ligne");
+          navigation.navigate("Dressing");
         }
       } else {
       }

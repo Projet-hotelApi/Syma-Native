@@ -19,8 +19,8 @@ const ProfileVendeur = () => {
       const response = await axios.get(
         "http://syma-projet.herokuapp.com/ad/user/" + params.id
       );
-      //console.log("response", response.data);
-      //console.log(response.data.articles[0]._id); // OK
+      console.log("response", response.data);
+      //console.log(response.data.articles[1]._id); // OK
       //console.log(response.data.articles.title); // NON
       setData(response.data);
       setIsLoading(false);
@@ -76,7 +76,7 @@ const ProfileVendeur = () => {
           <TouchableOpacity
             style={styles.contacter}
             onPress={() => {
-              navigation.navigate("Message", { id: data._id });
+              navigation.navigate("Message", { id: data.articles._id });
             }}
           >
             <Text style={styles.contacterText}>Contacter {data.username}</Text>
