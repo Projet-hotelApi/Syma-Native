@@ -37,7 +37,6 @@ const Acheter = ({ id, title, username, price }) => {
             title: title,
             // price : amount => can't find amount
             price: price,
-            username: username,
             currency: "eur",
             token: tokenStripe,
           },

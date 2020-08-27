@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const ProfileMenu = () => {
   const navigation = useNavigation();
@@ -29,6 +30,20 @@ const ProfileMenu = () => {
         <Text style={styles.btnProfileMenuText}>Mes commandes</Text>
         <AntDesign
           name="shoppingcart"
+          size={40}
+          color="white"
+          style={styles.icon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btnProfileMenu}
+        onPress={() => {
+          navigation.navigate("Ventes");
+        }}
+      >
+        <Text style={styles.btnProfileMenuText}>Mes ventes</Text>
+        <Entypo
+          name="shopping-basket"
           size={40}
           color="white"
           style={styles.icon}

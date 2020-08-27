@@ -46,7 +46,7 @@ const Annonce = ({ userToken }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [params.id]);
 
   const reviewsTotal = () => {
     let rating = 0;

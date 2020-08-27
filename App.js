@@ -29,6 +29,7 @@ import DeleteAccount from "./components/DeleteAccount";
 import Commandes from "./screens/Commandes";
 import Dressing from "./screens/Dressing";
 import Evaluations from "./screens/Evaluations";
+import Ventes from "./screens/Ventes";
 import Favoris from "./screens/Favoris";
 import FAQ from "./screens/FAQ";
 import FaqVendre from "./components/FaqVendre";
@@ -252,6 +253,24 @@ export default function App() {
                         }}
                       >
                         {() => <Commandes setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="Ventes"
+                        options={{
+                          title: "Mes ventes",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <Ventes setId={setId} setToken={setToken} />}
+                      </Stack.Screen>
+                      <Stack.Screen
+                        name="ProfileVendeur"
+                        options={{
+                          title: "Profil du vendeur",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <ProfileVendeur />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Dressing"
