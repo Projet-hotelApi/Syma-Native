@@ -22,7 +22,7 @@ const Ventes = () => {
           },
         }
       );
-      console.log(response.data.ventes);
+      console.log("VENTES", response.data.ventes);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -38,14 +38,33 @@ const Ventes = () => {
     <ScrollView>
       <SafeAreaView>
         <View>
-          {data.ventes.length < 0 ? (
+          {data.ventes.length === 0 ? (
             <View>
               <Text> Aucune commande a affiché</Text>
             </View>
           ) : (
-            <View>
-              <Text> Ventes en cours d'affichage</Text>
-            </View>
+            <FlatList
+              data={data.ventes}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => {
+                return (
+                  <View style={styles.vente}>
+                    <Image
+                      style={styles.imgAnnonce}
+                      source={{ uri: item.picture[0] }}
+                    />
+                    <View style={styles.ventesInfos}>
+                      <Text>{item.brand}</Text>
+                      <Text>{item.title}</Text>
+                      <Text>{item.condition}</Text>
+                      <Text>{item.description}</Text>
+                      <Text>{item.price}</Text>
+                      <Text>{item.size}</Text>
+                    </View>
+                  </View>
+                );
+              }}
+            />
           )}
         </View>
       </SafeAreaView>
@@ -58,6 +77,23 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingLeft: 10,
     paddingRight: 10,
+  },
+  vente: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  imgAnnonce: {
+    width: "80%",
+    height: 300,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  ventesInfos: {
+    paddingTop: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 });
 export default Ventes;

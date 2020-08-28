@@ -171,6 +171,13 @@ const Vendre = () => {
           uploadResponse.data.picture.length > 0
         ) {
           alert("Ton article sera bientôt mis en ligne");
+          setTitle("");
+          setDescription("");
+          setPrice();
+          setCondition(null);
+          setBrand(null);
+          setSize(null);
+          setPicture(null);
           navigation.navigate("Dressing");
         }
       } else {

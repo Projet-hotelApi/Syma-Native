@@ -26,7 +26,7 @@ const Commandes = () => {
           },
         }
       );
-      //console.log(response.data.commandes);
+      console.log(response.data.commandes);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -43,7 +43,7 @@ const Commandes = () => {
     <ScrollView style={styles.container}>
       <SafeAreaView>
         <View>
-          {data.commandes.length < 0 ? (
+          {data.commandes.length === 0 ? (
             <View>
               <Text> Aucune commande a affiché</Text>
             </View>

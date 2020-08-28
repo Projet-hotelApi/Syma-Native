@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Text, View, AsyncStorage, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import {
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -24,7 +28,7 @@ const Evaluations = ({ setId, setToken }) => {
           },
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
       //console.log("reviews", response.data.reviews);
       setData(response.data);
       setIsLoading(false);
@@ -36,18 +40,18 @@ const Evaluations = ({ setId, setToken }) => {
     fetchData();
   }, []);
 
-  let starsTab = [];
-  for (let i = 0; i < 5; i++) {
-    if (i < data.reviews.ratingNumber) {
-      starsTab.push(
-        <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
-      );
-    } else {
-      starsTab.push(
-        <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
-      );
-    }
-  }
+  // let starsTab = [];
+  // for (let i = 0; i < 5; i++) {
+  //   if (i < data.reviews.ratingNumber.length) {
+  //     starsTab.push(
+  //       <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+  //     );
+  //   } else {
+  //     starsTab.push(
+  //       <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+  //     );
+  //   }
+  // }
 
   const ratingValue = () => {
     let rating = 0;
@@ -55,10 +59,24 @@ const Evaluations = ({ setId, setToken }) => {
       rating += data.reviews[i].ratingNumber;
     }
     rating = rating / data.reviews.length;
-    console.log(rating);
     rating = Number(rating.toFixed());
     console.log(rating);
-    return rating;
+  };
+
+  const stars = () => {
+    let starsTab = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < data.reviews.length.ratingNumber) {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+        );
+      } else {
+        starsTab.push(
+          <Ionicons key={i} name="ios-star" size={20} color="#78244d" />
+        );
+      }
+    }
+    return starsTab;
   };
 
   return isLoading ? (
@@ -69,7 +87,7 @@ const Evaluations = ({ setId, setToken }) => {
     <ScrollView>
       <SafeAreaView>
         <View>
-          {data.reviews.length < 0 ? (
+          {data.reviews.length === 0 ? (
             <View>
               <Text> Aucune évaluation a affiché</Text>
             </View>
@@ -85,7 +103,7 @@ const Evaluations = ({ setId, setToken }) => {
                 renderItem={({ item }) => {
                   return (
                     <View style={styles.evaluations}>
-                      <Text>{starsTab}</Text>
+                      <Text>{stars()}</Text>
                       <Text>{item.description}</Text>
                     </View>
                   );

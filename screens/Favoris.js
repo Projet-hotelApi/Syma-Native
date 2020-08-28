@@ -33,9 +33,13 @@ const Favoris = ({ favoris, setFavoris }) => {
     favorite();
   }, []);
 
-  const remove = () => {
-    //console.log(item._id);
-    alert("Remove");
+  const remove = async (item) => {
+    try {
+      await AsyncStorage.removeItem("item");
+      return true;
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return isLoading ? (
@@ -49,13 +53,16 @@ const Favoris = ({ favoris, setFavoris }) => {
           //console.log(item);
           return (
             <View style={styles.annonces}>
-              <Text style={styles.creator}>{item.creator.username}</Text>
-              {item.picture[0] && (
-                <Image
-                  style={styles.imgProfile}
-                  source={{ uri: item.creator.picture[0] }}
-                />
-              )}
+              <View style={styles.creatorInfos}>
+                <Text style={styles.creator}>{item.creator.username}</Text>
+                {item.creator.picture[0] && (
+                  <Image
+                    style={styles.imgProfile}
+                    source={{ uri: item.creator.picture[0] }}
+                  />
+                )}
+              </View>
+
               <TouchableOpacity
                 style={styles.btnAnnonce}
                 onPress={() => {
@@ -70,10 +77,12 @@ const Favoris = ({ favoris, setFavoris }) => {
               <View style={styles.infoDiv}>
                 <Text>{item.price} €</Text>
                 <TouchableOpacity
-                  onPress={async () => {
-                    console.log(item._id);
-                    await AsyncStorage.removeItem(item._id);
-                  }}
+                  onPress={remove}
+                  // onPress={async () => {
+                  //   //console.log(item._id);
+                  //   //await AsyncStorage.removeItem("favoris"); // Supprime tout
+                  //   //await AsyncStorage.removeItem(); ???
+                  // }}
                 >
                   <MaterialCommunityIcons
                     name="heart-broken"
@@ -113,9 +122,17 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 270,
   },
+  creatorInfos: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingLeft: 15,
+    paddingRight: 200,
+    paddingBottom: 5,
+  },
   imgProfile: {
-    width: 20,
-    width: 20,
+    width: 30,
+    height: 30,
     borderRadius: 50,
   },
   btnAnnonce: {

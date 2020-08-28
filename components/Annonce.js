@@ -16,7 +16,7 @@ import Carousel from "react-native-snap-carousel";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/core";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/core";
 
 import moment from "moment";
@@ -36,7 +36,7 @@ const Annonce = ({ userToken }) => {
         "http://syma-projet.herokuapp.com/ad/informations/" + params.id
       );
       //console.log("RESPONSE", response.data);
-      //console.log(response.data.creator.token);
+      //console.log(response.data.picture);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {

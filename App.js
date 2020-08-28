@@ -306,9 +306,7 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => (
-                          <Evaluations setId={setId} setToken={setToken} />
-                        )}
+                        {() => <Evaluations />}
                       </Stack.Screen>
                       <Stack.Screen
                         name="Favoris"

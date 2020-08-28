@@ -5,7 +5,8 @@ import { useRoute } from "@react-navigation/core";
 import Activity from "../components/Activity";
 import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 
-const Acheter = ({ id, title, username, price }) => {
+const Acheter = ({ id }) => {
+  // title, username, price
   const { params } = useRoute();
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -30,13 +31,12 @@ const Acheter = ({ id, title, username, price }) => {
       const tokenStripe = await Stripe.createTokenWithCardAsync(optionsCard);
       console.log(tokenStripe);
       const response = await axios.post(
-        //"http://localhost:3000/payment/" + params.id,
         "http://syma-projet.herokuapp.com/payment/" + params.id,
         {
           options: {
             title: title,
             // price : amount => can't find amount
-            price: price,
+            amount: price,
             currency: "eur",
             token: tokenStripe,
           },
@@ -48,7 +48,7 @@ const Acheter = ({ id, title, username, price }) => {
         }
       );
 
-      //console.log("RESPONSE", response.data);
+      console.log("RESPONSE", response.data);
       //console.log(response.data._id);
       setData(response.data);
       setIsLoading(false);
@@ -65,7 +65,6 @@ const Acheter = ({ id, title, username, price }) => {
   ) : (
     <View>
       <Text>Acheter</Text>
-      <Text>{title}</Text>
     </View>
   );
 };
