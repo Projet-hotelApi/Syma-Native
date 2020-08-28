@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  AsyncStorage,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, StyleSheet, AsyncStorage, Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import {
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-} from "react-native-gesture-handler";
+import { ScrollView, FlatList } from "react-native-gesture-handler";
 import axios from "axios";
 import Activity from "../components/Activity";
 import { SafeAreaView } from "react-native-safe-area-context";

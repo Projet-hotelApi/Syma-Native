@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Text, View, AsyncStorage, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Evaluations = ({ setId, setToken }) => {
   const [data, setData] = useState({});
@@ -65,24 +66,36 @@ const Evaluations = ({ setId, setToken }) => {
       <Text>Mes Evaluations</Text>
     </View>
   ) : (
-    <View>
-      <Text style={styles.note}>
-        {" "}
-        Ma note générale est de : {ratingValue()}
-      </Text>
-      <FlatList
-        data={data.reviews}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.evaluations}>
-              <Text>{starsTab}</Text>
-              <Text>{item.description}</Text>
+    <ScrollView>
+      <SafeAreaView>
+        <View>
+          {data.reviews.length < 0 ? (
+            <View>
+              <Text> Aucune évaluation a affiché</Text>
             </View>
-          );
-        }}
-      />
-    </View>
+          ) : (
+            <View>
+              <Text style={styles.note}>
+                {" "}
+                Ma note générale est de : {ratingValue()}
+              </Text>
+              <FlatList
+                data={data.reviews}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.evaluations}>
+                      <Text>{starsTab}</Text>
+                      <Text>{item.description}</Text>
+                    </View>
+                  );
+                }}
+              />
+            </View>
+          )}
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
