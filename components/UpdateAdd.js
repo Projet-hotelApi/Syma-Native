@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import Swiper from "react-native-swiper"; // carroussel images
+import Activity from "../components/Activity";
 
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/core";
@@ -130,6 +131,20 @@ const UpdateAdd = ({ id }) => {
       // appeler la fonction pour photo !!
       setPicture(pickerResult.uri);
       console.log(pickerResult.uri);
+    }
+  };
+  const takeAPicture = async () => {
+    const cameraPerm = await ImagePicker.requestCameraPermissionsAsync();
+    const cameraRollPerm = await ImagePicker.requestCameraRollPermissionsAsync();
+    if (
+      cameraPerm.status === "granted" &&
+      cameraRollPerm.status === "granted"
+    ) {
+      const pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+      setPicture(pickerResult.uri);
     }
   };
 
@@ -303,7 +318,7 @@ const UpdateAdd = ({ id }) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <Text>En chargement...</Text>
+          <Activity />
         )}
       </View>
     </ScrollView>
