@@ -48,6 +48,10 @@ const Annonce = ({ userToken }) => {
     fetchData();
   }, [params.id]);
 
+  _renderItem = ({ item, index }) => {
+    return <Image style={styles.imgAnnonces} source={{ uri: item }} />;
+  };
+
   const reviewsTotal = () => {
     let rating = 0;
     for (let i = 0; i < data.creator.reviews.length; i++) {
@@ -75,12 +79,20 @@ const Annonce = ({ userToken }) => {
   ) : (
     <ScrollView>
       <View style={styles.container}>
-        {/* <ImageBackground style={styles.image} source={{ uri: data.picture[0] }}>
-          <View style={styles.favorisDiv}>
-            <AntDesign name="heart" size={40} color="black" />
-          </View>
-        </ImageBackground> */}
-        <Image style={styles.image} source={{ uri: data.picture[0] }} />
+        {data.picture.length === 1 ? (
+          <Image style={styles.image} source={{ uri: data.picture[0] }} />
+        ) : (
+          <Carousel
+            ref={(c) => {
+              _carousel = c;
+            }}
+            data={data.picture}
+            renderItem={_renderItem}
+            sliderWidth={340}
+            itemWidth={340}
+          />
+        )}
+
         <TouchableOpacity
           style={styles.creator}
           onPress={() => {
@@ -213,6 +225,10 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   image: {
+    width: "100%",
+    height: 400,
+  },
+  imgAnnonces: {
     width: "100%",
     height: 400,
   },

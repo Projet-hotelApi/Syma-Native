@@ -33,10 +33,13 @@ const Favoris = ({ favoris, setFavoris }) => {
     favorite();
   }, []);
 
-  const remove = async (item) => {
+  const remove = async () => {
     try {
-      await AsyncStorage.removeItem("item");
-      return true;
+      const remove = await AsyncStorage.getItem("item", item._id);
+      const removeTab = remove && JSON.parse(remove);
+      // remove tout
+      await AsyncStorage.removeItem("item._id");
+      // return true;
     } catch (error) {
       console.log(error.message);
     }
@@ -79,9 +82,9 @@ const Favoris = ({ favoris, setFavoris }) => {
                 <TouchableOpacity
                   onPress={remove}
                   // onPress={async () => {
-                  //   //console.log(item._id);
+                  //   console.log(item._id);
                   //   //await AsyncStorage.removeItem("favoris"); // Supprime tout
-                  //   //await AsyncStorage.removeItem(); ???
+                  //   await AsyncStorage.removeItem("item._id"); //???
                   // }}
                 >
                   <MaterialCommunityIcons
