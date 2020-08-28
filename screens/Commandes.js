@@ -43,44 +43,50 @@ const Commandes = () => {
     <ScrollView style={styles.container}>
       <SafeAreaView>
         <View>
-          <FlatList
-            data={data.commandes}
-            // contentContainerStyle={styles.list}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("ProfileVendeur", {
-                      id: item.creator._id,
-                    });
-                  }}
-                >
-                  <View style={styles.commande}>
-                    <Image
-                      style={styles.imgAnnonce}
-                      source={{ uri: item.picture[0] }}
-                    />
-                    <View style={styles.commandesInfos}>
-                      <Text style={styles}>{item.brand}</Text>
-                      <Text style={styles.text}>{item.title}</Text>
+          {data.commandes.length < 0 ? (
+            <View>
+              <Text> Aucune commande a affiché</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={data.commandes}
+              // contentContainerStyle={styles.list}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("ProfileVendeur", {
+                        id: item.creator._id,
+                      });
+                    }}
+                  >
+                    <View style={styles.commande}>
+                      <Image
+                        style={styles.imgAnnonce}
+                        source={{ uri: item.picture[0] }}
+                      />
+                      <View style={styles.commandesInfos}>
+                        <Text style={styles}>{item.brand}</Text>
+                        <Text style={styles.text}>{item.title}</Text>
+                      </View>
+                      <View style={styles.creatorInfos}>
+                        <Text style={styles.creator}>
+                          {item.creator.username}
+                        </Text>
+                        {item.creator.picture[0] ? (
+                          <Image
+                            style={styles.imgProfile}
+                            source={{ uri: item.creator.picture[0] }}
+                          />
+                        ) : null}
+                      </View>
                     </View>
-                    <View style={styles.creatorInfos}>
-                      <Text style={styles.creator}>
-                        {item.creator.username}
-                      </Text>
-                      {item.creator.picture[0] ? (
-                        <Image
-                          style={styles.imgProfile}
-                          source={{ uri: item.creator.picture[0] }}
-                        />
-                      ) : null}
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-          />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          )}
         </View>
       </SafeAreaView>
     </ScrollView>

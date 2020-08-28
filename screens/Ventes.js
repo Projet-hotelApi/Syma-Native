@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, AsyncStorage, Image } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import {
   TouchableOpacity,
@@ -26,7 +33,7 @@ const Ventes = () => {
           },
         }
       );
-      console.log(response.data.commandes);
+      console.log(response.data.ventes);
       setData(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -36,10 +43,24 @@ const Ventes = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return (
-    <View>
-      <Text>Mes ventes</Text>
-    </View>
+  return isLoading ? (
+    <Activity />
+  ) : (
+    <ScrollView>
+      <SafeAreaView>
+        <View>
+          {data.ventes.length < 0 ? (
+            <View>
+              <Text> Aucune commande a affiché</Text>
+            </View>
+          ) : (
+            <View>
+              <Text> Ventes en cours d'affichage</Text>
+            </View>
+          )}
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
